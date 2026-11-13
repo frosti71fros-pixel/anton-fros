@@ -1,0 +1,1423 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Anton Fros</title>
+<meta name="description" content="Антон Фрос — арт-директор, шрифтовой дизайнер. Брендинг, шрифты, каллиграфия.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wdth,wght@12..36,75..150,300..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505; --fg:#e9e9e4; --dim:#7b7b76; --line:#262624; --line2:#3a3a37; --acc:#c9b79c;
+  --mono:'TikTok Sans','Helvetica Neue',Arial,sans-serif;
+  --sans:'TikTok Sans','Helvetica Neue',Arial,sans-serif;
+  --serif:var(--sans);
+  --pad:clamp(16px,2.4vw,32px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--fg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);font:400 12px/1.5 var(--mono);letter-spacing:.01em;overflow-x:hidden;cursor:crosshair}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+::selection{background:var(--acc);color:#000}
+
+/* ---------- top bar ---------- */
+.bar{position:fixed;inset:0 0 auto 0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:12px var(--pad);border-bottom:1px solid var(--line);background:rgba(5,5,5,.82);backdrop-filter:blur(8px);text-transform:uppercase}
+.bar .l{display:flex;gap:18px;align-items:center}
+.bar .r{display:flex;gap:18px;justify-content:flex-end}
+.bar a:hover{color:var(--acc)}
+.brand{display:inline-flex;align-items:center;gap:10px}
+.brand .logo{width:auto;height:18px;flex:none}
+footer .brand .logo{height:14px}
+.dot{width:7px;height:7px;background:var(--acc);display:inline-block;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.clock{color:var(--dim)}
+.m-btn{display:none}
+/* mobile menu: the nav turns into a full-screen panel under the bar */
+@media (max-width:820px){
+  .bar{grid-template-columns:1fr auto;height:44px;padding-top:0;padding-bottom:0}
+  .bar .mid{display:none}
+  .m-btn{display:inline-flex;align-items:center;gap:10px;height:30px;padding:0 10px;border:1px solid var(--line2);text-transform:uppercase;letter-spacing:.06em;font:500 11px/1 var(--sans)}
+  .m-btn i{position:relative;width:14px;height:9px}
+  .m-btn i::before,.m-btn i::after{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor;transition:transform .35s cubic-bezier(.7,0,.2,1),top .35s cubic-bezier(.7,0,.2,1)}
+  .m-btn i::before{top:0}.m-btn i::after{top:7.5px}
+  .bar.open .m-btn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+  .bar.open .m-btn i::before{top:3.75px;transform:rotate(45deg)}
+  .bar.open .m-btn i::after{top:3.75px;transform:rotate(-45deg)}
+  .bar .r{position:fixed;left:0;right:0;top:44px;height:calc(100svh - 44px);flex-direction:column;justify-content:flex-start;gap:0;padding:8px var(--pad) 24px;background:var(--bg);
+    counter-reset:mn 1;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .55s cubic-bezier(.7,0,.2,1),visibility 0s .55s;overflow-y:auto}
+  .bar.open .r{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .55s cubic-bezier(.7,0,.2,1)}
+  .bar .r a{counter-increment:mn;display:flex;align-items:baseline;gap:14px;padding:14px 0;border-bottom:1px solid var(--line2);font:600 clamp(36px,11vw,64px)/1 var(--sans);letter-spacing:-.04em;text-transform:none;
+    transform:translateY(24px);opacity:0;transition:transform .5s cubic-bezier(.2,.7,.2,1),opacity .4s}
+  .bar .r a::before{content:"[ 0" counter(mn) " ]";font:500 11px/1 var(--sans);letter-spacing:.06em;color:var(--dim);flex:none;width:48px}
+  .bar.open .r a{transform:none;opacity:1}
+  .bar.open .r a:nth-child(2){transition-delay:.04s}.bar.open .r a:nth-child(3){transition-delay:.08s}.bar.open .r a:nth-child(4){transition-delay:.12s}.bar.open .r a:nth-child(5){transition-delay:.16s}
+  body.m-lock{overflow:hidden}
+}
+
+/* ---------- hero slider ---------- */
+/* stage: grid paper → fanned carousel of the other cases → the active case as a rounded card in an editor-style selection box */
+.hero{--fw:min(62vw,calc((100svh - 330px) * 1.6),1200px);--fh:calc(var(--fw) / 1.6);--fy:max(calc(50% - 90px),calc(var(--fh) / 2 + 100px));--fr:clamp(14px,1.6vw,26px);
+  position:relative;height:100svh;min-height:640px;border-bottom:1px solid var(--line);overflow:hidden;background:#060606;touch-action:pan-y;user-select:none}
+.h-grid{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px) 0 0/calc(100% / 6) 100%,
+             linear-gradient(180deg,rgba(255,255,255,.07) 1px,transparent 1px) 0 0/100% calc(100% / 5),
+             radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.4px) 0 0/4px 4px}
+.h-grid .mk{position:absolute;left:calc(100% / 6 - 4px);top:calc(100% / 5 * 3 - 4px);width:8px;height:8px;background:var(--fg)}
+/* drum: every cover is mapped onto one cylinder in a WebGL shader (curved images, pixel-dissolving edges, mosaic on flip).
+   --fw/--fh: size of the front panel; the selection box is drawn around it */
+#drum{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1}
+.hero.no-gl .h-sel{background:#111 center/cover no-repeat}
+/* selection box around the card (handles, ruler, dimensions) */
+.h-sel{position:absolute;left:50%;top:var(--fy);width:calc(var(--fw) + 24px);height:calc(var(--fh) + 24px);transform:translate(-50%,-50%);z-index:2;pointer-events:none;
+  border:1px solid rgba(255,255,255,.4);font:500 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:#fff;font-variant-numeric:tabular-nums}
+.h-sel .hd{position:absolute;width:7px;height:7px;margin:-4px 0 0 -4px;background:#060606;border:1px solid #fff}
+.h-sel .tl{left:0;top:0}.h-sel .tc{left:50%;top:0}.h-sel .tr{left:100%;top:0}.h-sel .ml{left:0;top:50%}.h-sel .mr{left:100%;top:50%}
+.h-sel .bl{left:0;top:100%}.h-sel .bc{left:50%;top:100%}.h-sel .br{left:100%;top:100%;background:var(--acc);border-color:var(--acc)}
+.h-sel .rl{position:absolute;left:0;right:0;top:-14px;height:6px;opacity:.5;
+  background:repeating-linear-gradient(90deg,#fff 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,#fff 0 1px,transparent 1px 50px);background-size:auto 3px,auto 6px;background-repeat:repeat-x;background-position:0 100%,0 100%}
+.h-sel .lb{position:absolute;white-space:nowrap}
+.h-sel .ix{left:0;bottom:calc(100% + 22px);font:700 clamp(15px,1.15vw,20px)/1 var(--sans);letter-spacing:.02em}
+.h-sel .ix i{font-style:normal;font-weight:400;font-size:.62em;letter-spacing:.06em}
+.h-sel .wh{left:calc(100% + 12px);bottom:-5px;background:#fff;color:#000;padding:4px 6px}
+.h-sel .sp{right:0;top:-30px;color:rgba(255,255,255,.7)}
+.h-sel .sp b{color:#fff;font-weight:600;margin-right:10px}
+.h-sel .orb{position:absolute;right:calc(var(--fw) * -.07);top:calc(var(--fh) * -.12);width:calc(var(--fh) * .3);aspect-ratio:1;border:1px solid rgba(255,255,255,.45);border-radius:50%;animation:spin 18s linear infinite}
+.h-sel .orb i{position:absolute;left:50%;top:-4px;width:7px;height:7px;margin-left:-4px;background:var(--acc)}
+.h-sel .orb::after{content:"";position:absolute;inset:18%;border:1px dashed rgba(255,255,255,.3);border-radius:50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero.tr-on .h-sel{border-color:var(--acc)}
+.hero .ui{z-index:4;left:var(--pad)!important;right:var(--pad)!important}
+.h-thumbs{z-index:5;left:var(--pad)!important;right:var(--pad)!important}
+/* side hover zones: a big square with an arrow follows the cursor; nothing is shown until you hover a side */
+.h-nav{position:absolute;top:44px;bottom:64px;width:27%;z-index:3;cursor:none;outline:none}
+.h-nav.prev{left:0}.h-nav.next{right:0}
+.h-nav .sq{position:absolute;left:0;top:0;transition:transform .16s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.h-nav .sqi{position:absolute;width:clamp(112px,9.5vw,156px);aspect-ratio:1;transform:translate(-50%,-50%) scale(.3);opacity:0;
+  display:grid;place-items:center;background:var(--acc);color:#0c0c0b;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s}
+.h-nav:hover .sqi,.h-nav:focus-visible .sqi{transform:translate(-50%,-50%) scale(1);opacity:1}
+.h-nav:active .sqi{transform:translate(-50%,-50%) scale(.92)}
+.h-nav .sqi>span[data-chev] svg{width:clamp(30px,2.6vw,42px);height:auto;display:block}
+.h-nav .nm{position:absolute;left:10px;right:10px;top:10px;display:flex;flex-direction:column;gap:3px;font:500 10px/1.15 var(--sans);letter-spacing:.06em;text-transform:uppercase;text-align:left}
+.h-nav .nm b{font-weight:700}
+.h-nav .nm span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;opacity:.75}
+.h-nav.next .sqi::after,.h-nav.prev .sqi::after{content:"";position:absolute;right:8px;bottom:8px;width:6px;height:6px;background:#0c0c0b}
+.h-nav:focus-visible .sq{left:50%;top:50%;transform:none!important}
+body.xh-nav .xh-dot,body.xh-nav .xh-lbl{opacity:0!important} /* over the squares keep only the crosshair lines */
+body.xh-nav .xh{z-index:2} /* lines drop under the hover zones (z 3), so the black square covers them */
+@media (hover:none){
+  .h-nav{width:20%;cursor:auto}
+  .h-nav .sq{left:50%!important;top:50%!important;transform:none!important}
+  .h-nav .sqi{width:44px;transform:translate(-50%,-50%);opacity:.9;background:rgba(12,12,11,.88);color:#d5d4cf}
+  .h-nav .nm{display:none}
+  .h-nav .sqi>span[data-chev] svg{width:16px}
+}
+.hero .ui{position:absolute;inset:52px var(--pad) 0;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:auto 1fr auto auto;gap:14px 16px;pointer-events:none}
+.hero .ui a,.hero .ui button{pointer-events:auto}
+.h-strip{grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:16px;font:500 10px/1.25 var(--sans);text-transform:uppercase;letter-spacing:.04em;padding-top:10px;border-top:1px solid rgba(255,255,255,.5)}
+.h-strip b{display:block;font-weight:600}
+.h-card{grid-column:1/5;grid-row:1;align-self:start;background:#000;color:#fff;padding:10px 12px 12px;font:400 12px/1.35 var(--sans);max-width:360px}
+.h-card .who{font:700 22px/.95 var(--sans);letter-spacing:-.03em;text-transform:uppercase;margin-bottom:8px}
+.h-card .who i{font:300 22px/.95 var(--serif);font-stretch:140%;font-style:normal;text-transform:none;letter-spacing:-.01em}
+.h-card .term{font:400 11px var(--mono);margin-top:10px;color:var(--acc);text-transform:uppercase}
+.h-card .cur{display:inline-block;width:.6em;height:1em;background:var(--acc);vertical-align:-.12em;animation:blink 1s steps(1) infinite}
+.h-title{grid-column:1/12;grid-row:3;align-self:end;color:#fff;display:block;cursor:pointer}
+.h-title .g{display:inline;font:600 clamp(40px,7.6vw,132px)/1 var(--sans);letter-spacing:-.035em;overflow-wrap:anywhere}
+.h-title .a{display:table;margin-top:8px;font:300 clamp(24px,3.2vw,56px)/1 var(--serif);font-stretch:140%;letter-spacing:-.02em;margin-left:clamp(20px,6vw,120px)}
+.h-title .g,.h-title .a{padding:0 .12em .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background .45s cubic-bezier(.2,.7,.2,1)}.h-title .g{margin-left:-.12em}.h-title:hover .g,.h-title:hover .a{background:#000}
+.h-row{grid-column:1/-1;grid-row:4;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;padding-bottom:64px}
+.h-ctrl{grid-column:2}
+.h-num{font:400 clamp(54px,11vw,190px)/.8 var(--sans);letter-spacing:-.045em;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.h-num i{font:300 .42em var(--serif);font-stretch:150%;font-style:normal;letter-spacing:-.02em;margin-left:.1em}
+.h-ctrl{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border:1.5px solid #fff;border-radius:0;font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.05em;color:#fff;background:rgba(0,0,0,.25);backdrop-filter:blur(4px)}
+a.pill:hover,button.pill:hover{background:#fff;color:#000}
+.pill.solid{background:#fff;color:#000}
+.pill.solid:hover{background:var(--acc);border-color:var(--acc)}
+@keyframes fill{to{width:100%}}
+.hero-wrap{position:relative}
+
+/* ---------- section head / filters ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:4px}
+.filters button{padding:6px 14px;border:1.5px solid var(--line2);border-radius:0;font:500 11px/1 var(--sans);letter-spacing:.05em;text-transform:uppercase}
+.filters button:hover{border-color:var(--fg)}
+.filters sup{font-size:9px;margin-left:3px;opacity:.6}
+
+/* ---------- grid ---------- */
+/* corner ticks */
+
+/* list view */
+
+/* ---------- about ---------- */
+/* full-screen crosshair cursor */
+.xh{position:fixed;z-index:200;pointer-events:none;background:#fff;mix-blend-mode:difference;opacity:0;transition:opacity .25s}
+.xh-h{left:0;right:0;top:0;height:1px}
+.xh-v{top:0;bottom:0;left:0;width:1px}
+.xh-dot,.xh-lbl{left:0;top:0}
+.xh-dot{width:7px;height:7px;background:transparent;border:1px solid #fff;margin:-3px 0 0 -3px}
+.xh-lbl{background:transparent;font:500 10px/1 var(--sans);font-variant-numeric:tabular-nums;color:#fff;white-space:nowrap;margin:8px 0 0 10px;letter-spacing:.04em}
+body.xh-on .xh{opacity:1}
+body.xh-on.xh-link .xh-dot{width:17px;height:17px;margin:-8px 0 0 -8px;border-radius:50%}
+@media (pointer:coarse),(hover:none){.xh{display:none}}
+/* side rails (slider arrows) */
+.pill.solid{background:var(--acc);border-color:var(--acc);color:#000;padding:10px 18px}
+.pill.solid:hover{background:#fff;border-color:#fff}
+
+
+/* all cases: tiles */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line)}
+.card{--cbg:var(--bg);--cfg:var(--fg);--cdim:var(--dim);position:relative;display:flex;flex-direction:column;gap:12px;padding:14px 14px 16px;min-width:0;
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--cbg);color:var(--cfg);transition:background .35s,color .35s}
+.card:hover,.card:focus-visible{--cbg:#d5d4cf;--cfg:#0c0c0b;--cdim:#62615c}
+.card .hd{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font:500 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--cdim);font-variant-numeric:tabular-nums}
+.card .hd .n{color:var(--cfg);font-weight:600}
+.card .hd i{height:1px;background:currentColor;opacity:.5;transform-origin:left;transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.card:hover .hd i{transform:scaleX(.3)}
+.card .thumb{position:relative;aspect-ratio:808/632;overflow:hidden;background:#111;max-width:100%}
+.card .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06) brightness(.9);transition:filter .3s}
+.card.lit .thumb img{filter:none}
+.card .thumb canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+.card.anim .thumb canvas{opacity:1}
+.card .xy{position:absolute;top:8px;left:8px;font:500 10px/1 var(--sans);font-variant-numeric:tabular-nums;background:#0c0c0b;color:#fff;padding:3px 5px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:2}
+.card:hover .xy{opacity:1}
+.card .crn{position:absolute;width:12px;height:12px;border:0 solid var(--cfg);z-index:2;opacity:0;transition:opacity .2s,transform .35s cubic-bezier(.7,0,.2,1)}
+.card .crn.a{top:6px;right:6px;border-top-width:1.5px;border-right-width:1.5px;transform:translate(-6px,6px)}
+.card .crn.b{bottom:6px;left:6px;border-bottom-width:1.5px;border-left-width:1.5px;transform:translate(6px,-6px)}
+.card:hover .crn{opacity:1;transform:none}
+.card .ft{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+.card .t{font:600 clamp(18px,1.7vw,26px)/1.02 var(--sans);letter-spacing:-.03em;overflow-wrap:anywhere}
+.card .sub{display:block;font:400 13px/1.25 var(--sans);letter-spacing:0;color:var(--cdim);margin-top:6px}
+.card .go{width:44px;height:44px;display:grid;place-items:center;border:1.5px solid var(--cfg);transition:background .25s,color .25s}
+.card .go svg{width:16px;height:16px}
+.card:hover .go{background:var(--cfg);color:var(--cbg)}
+.card .tags{display:flex;flex-wrap:wrap;gap:4px}
+.card .tags span{font:500 10px/1 var(--sans);letter-spacing:.05em;text-transform:uppercase;padding:4px 6px;border:1px solid var(--cdim);color:var(--cdim)}
+.card:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.card.hide{display:none}
+@keyframes cardIn{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+/* timeline (replaces thumbnail strip) */
+.h-thumbs{position:absolute;z-index:4;left:var(--pad);right:var(--pad);bottom:18px;height:30px;display:flex;align-items:flex-end;gap:3px}
+.h-thumbs button{position:relative;flex:1;height:100%;min-width:0}
+.h-thumbs button::before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.3);transition:height .25s,background .25s}
+.h-thumbs button:nth-child(5n+2)::after{content:"";position:absolute;left:0;bottom:2px;width:1px;height:9px;background:rgba(255,255,255,.55)}
+.h-thumbs button:hover::before{height:6px;background:rgba(255,255,255,.75)}
+.h-thumbs button i{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--acc);z-index:1}
+.h-thumbs button.done::before{background:rgba(255,255,255,.7)}
+.h-thumbs button[aria-current=true]::before{height:6px;background:rgba(255,255,255,.45)}
+.h-thumbs button[aria-current=true] i{height:6px;animation:fill var(--dur,6s) linear forwards}
+.hero.paused .h-thumbs button[aria-current=true] i{animation-play-state:paused}
+.h-thumbs .tip{position:absolute;bottom:16px;transform:translateX(-50%);white-space:nowrap;font:500 11px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;background:#fff;color:#000;padding:5px 7px;pointer-events:none;opacity:0;transition:opacity .15s}
+.h-thumbs .tip.on{opacity:1}
+.case-bar button svg{display:block;width:14px;height:14px}
+@keyframes fill{to{width:100%}}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px var(--pad) 22px;color:var(--dim);text-transform:uppercase}
+
+/* ---------- case view ---------- */
+.case{position:fixed;inset:0;z-index:60;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;transform:translateY(100%);transition:transform .55s cubic-bezier(.7,0,.2,1);visibility:hidden}
+.case.open{transform:none;visibility:visible}
+.case-bar{position:sticky;top:0;z-index:2;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px var(--pad);border-bottom:1px solid var(--line);background:rgba(5,5,5,.9);backdrop-filter:blur(8px);text-transform:uppercase}
+.case-bar .crumbs{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:var(--dim)}
+.case-bar .crumbs b{color:var(--fg);font-weight:400}
+.case-bar .act{display:flex;gap:6px}
+.case-bar .act button,.case-bar .act a{padding:4px 8px;border:1px solid var(--line2);white-space:nowrap}
+.case-bar .act button:hover,.case-bar .act a:hover{border-color:var(--acc);color:var(--acc)}
+.case-head{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;padding:clamp(40px,7vw,100px) 0 32px;width:min(100% - 2*var(--pad),66.666vw);margin:0 auto}
+.case-head h1{grid-column:1/-1;font:600 clamp(40px,7vw,124px)/.88 var(--sans);letter-spacing:-.035em;overflow-wrap:anywhere;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.case-head h1 .g{margin-left:-.04em}
+.case-head h1 .a{font:300 .45em/1 var(--serif);font-stretch:140%;letter-spacing:-.02em;margin-left:clamp(16px,4vw,80px)}
+.case-head .meta{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px;border-top:1px solid var(--line);padding-top:12px;text-transform:uppercase}
+.case-head .meta span{display:block;color:var(--dim);margin-bottom:4px}
+.case-head .meta a{text-decoration:underline;text-underline-offset:3px}
+.case-head .meta a:hover{color:var(--acc)}
+.case-body{width:min(100% - 2*var(--pad),66.666vw);margin:0 auto;padding:0 0 40px;display:flex;flex-direction:column;gap:clamp(4px,.6vw,10px)}
+.case-body img{width:100%;height:auto;background:#0d0d0d;min-height:120px}
+.case-body img.ok{min-height:0}
+.case-body .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(4px,.6vw,10px)}
+.case-body .txt{white-space:pre-line;font:400 clamp(15px,1.3vw,19px)/1.5 var(--sans);max-width:680px;padding:clamp(32px,5vw,72px) 0;margin-left:auto;margin-right:auto;width:100%}
+.case-body .txt::first-line{font-weight:600}
+.case-body .txt::before{content:"// ";color:var(--acc);font-family:var(--mono)}
+.case-body .vid{position:relative;aspect-ratio:16/9;background:#0d0d0d}
+.case-body .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.case-foot{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.case-foot button{padding:clamp(24px,4vw,56px) var(--pad);text-align:left;text-transform:uppercase;border-right:1px solid var(--line)}
+.case-foot button:last-child{text-align:right;border-right:0}
+.case-foot button span{display:block;color:var(--dim);margin-bottom:10px}
+.case-foot button b{font:600 clamp(22px,3.6vw,56px)/.9 var(--sans);letter-spacing:-.035em}
+/* prev / next case: on hover the whole cell turns beige with black type, and the title breaks into big pixels */
+.case-foot button{transition:background .3s,color .3s}
+.case-foot button span{transition:color .3s}
+.case-foot button:hover{background:var(--acc);color:#0c0c0b}
+.case-foot button:hover span{color:#0c0c0b}
+.case-foot button:hover b{animation:none!important}
+.case-foot button{position:relative}
+.case-foot canvas{position:absolute;pointer-events:none}
+.src-note{padding:16px var(--pad);color:var(--dim);text-transform:uppercase;border-top:1px solid var(--line);display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.src-note a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+.src-note a:hover{color:var(--acc)}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--acc);z-index:70;width:0}
+
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:820px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .h-strip{grid-template-columns:repeat(3,1fr)}.h-strip>:nth-child(n+4){display:none}
+  .h-card{grid-column:1/-1;max-width:none}
+  .h-title{grid-column:1/-1}
+  .h-row{grid-template-columns:1fr}.h-ctrl{align-items:flex-start}.pills{justify-content:flex-start}
+  .case-head,.case-body{width:calc(100% - 2*var(--pad))}
+  .case-head .meta{grid-template-columns:1fr 1fr}
+  .bar .clock{display:none}
+}
+@media (max-width:520px){
+  .grid{grid-template-columns:1fr}
+  .bar{grid-template-columns:1fr auto}.bar .mid{display:none}
+  .case-bar .act .ext{display:none}
+  .h-card .term{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ============ SCREENS BELOW THE HERO — one semantic system ============
+   every screen: .scr + optional .light (paper) ; header .sh = [ 0N ] tag + 3 meta labels
+   colors only through tokens: --bg (ground) --fg (ink) --dim (secondary) --line/--line2 (rules) --acc (accent) */
+.light{--bg:#d5d4cf;--fg:#0c0c0b;--dim:#62615c;--line:rgba(12,12,11,.14);--line2:rgba(12,12,11,.26);--paper:#d5d4cf;background:var(--bg);color:var(--fg)}
+.light ::selection{background:#0c0c0b;color:#d5d4cf}
+.scr{position:relative;padding:clamp(22px,3vw,40px) var(--pad) clamp(40px,6vw,88px);background:var(--bg);color:var(--fg);overflow:hidden;isolation:isolate;scroll-margin-top:41px}
+.sh{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:center;font:500 11px/1.2 var(--sans);text-transform:uppercase;letter-spacing:.06em;padding-bottom:12px;border-bottom:1px solid var(--fg);margin-bottom:clamp(28px,4vw,56px);position:relative;z-index:1}
+.sh>span{color:var(--dim)}
+.tag{display:inline-block;width:max-content;background:var(--fg);color:var(--bg);padding:4px 7px;font:600 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;margin:0}
+.ab-col .tag{display:table;margin-bottom:12px}
+@media (max-width:820px){.sh{grid-template-columns:1fr 1fr}.sh>span:nth-child(n+3){display:none}}
+
+/* 02 about (layout) */
+.about{display:flex;flex-direction:column}
+.about .sh{margin-bottom:0}
+.ab-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px 16px;align-items:start;position:relative;z-index:1}
+.ab-col{min-width:0}
+@media (max-width:820px){.ab-col{grid-column:span 6}}
+
+/* 04 cases */
+.all-toggle{width:100%;display:grid;grid-template-columns:1fr auto auto;gap:24px;align-items:center;text-align:left;padding:clamp(16px,2.4vw,32px) 0;border-bottom:1px solid var(--line2);color:var(--fg);transition:padding .5s cubic-bezier(.2,.7,.2,1)}
+.all-toggle .lbl{font:600 clamp(48px,9vw,160px)/.9 var(--sans);letter-spacing:-.04em;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.all-toggle .cnt{font:300 clamp(16px,1.8vw,28px)/1 var(--sans);font-stretch:140%;color:var(--dim);font-variant-numeric:tabular-nums}
+.all-toggle .ic,.more .ic{position:relative;width:clamp(56px,6vw,104px);aspect-ratio:1;background:var(--fg);color:var(--bg);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+/* the plus is drawn, not typed, so it sits exactly in the middle */
+.all-toggle .ic::before,.all-toggle .ic::after,.more .ic::before,.more .ic::after{content:"";position:absolute;left:50%;top:50%;width:38%;height:2px;margin:-1px 0 0 -19%;background:currentColor}
+.all-toggle .ic::after,.more .ic::after{transform:rotate(90deg)}
+/* "show more": one wide row under the 3-column grid */
+/* counter and hint sit right after the big label, the plus stays at the far right */
+/* counter + hint sit about a quarter of the width before the plus, on one line */
+.all-toggle .cnt{grid-column:3}
+.all-toggle .hint{grid-column:4;margin-right:22vw;font:600 clamp(11px,.9vw,14px)/1.1 var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.all-toggle .ic{grid-column:5}
+.all-toggle{grid-template-columns:auto 1fr auto auto auto}
+/* arrow down instead of the plus: a stem and a chevron, drawn to sit in the middle */
+.more .ic.dn::before{display:none}
+.more .ic.dn::after{width:24%;height:24%;margin:0;left:50%;top:50%;background:none;border:0 solid currentColor;border-right-width:2px;border-bottom-width:2px;transform:translate(-50%,-70%) rotate(45deg)}
+.more{width:100%;display:flex;justify-content:center;gap:clamp(16px,2vw,32px);align-items:center;text-align:center;padding:clamp(14px,1.8vw,24px) clamp(14px,1.6vw,22px);
+  border:1px solid var(--line);border-top:0;color:var(--fg);transition:background .35s,color .35s}
+.more[hidden]{display:none}
+.more .lbl{font:600 clamp(28px,4vw,64px)/.95 var(--sans);letter-spacing:-.04em}
+.more .cnt{font:300 clamp(16px,1.8vw,28px)/1 var(--sans);font-stretch:140%;color:var(--dim);font-variant-numeric:tabular-nums}
+.more .ic{width:clamp(48px,4.6vw,80px)}
+.more:hover{background:var(--fg);color:var(--bg)}.more:hover .cnt{color:var(--bg)}.more:hover .ic{background:var(--acc);color:#0c0c0b}
+.card.cut{display:none}
+.all-toggle:hover .lbl{transform:translateX(.08em)}
+.all-toggle[aria-expanded=true] .ic{transform:rotate(45deg)}
+.cases .sec-h{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line2);position:sticky;top:41px;z-index:5;background:var(--bg)}
+.sec-n{font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.filters button{color:var(--fg);border-color:var(--line2)}
+.filters button[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.cases .grid{border-left:1px solid var(--line);margin-top:0}
+.card{opacity:var(--co,1);transform:translateY(calc((1 - var(--co,1)) * 40px))}
+#all-cases:not([hidden]) .card{animation:none}
+
+/* 05 awards */
+.awards .sh{margin-bottom:clamp(20px,2.6vw,36px)}
+.aw-sum{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:end;margin-bottom:0}
+.aw-c{grid-column:span 2;display:flex;flex-direction:column;gap:6px}
+.aw-c b{font:600 clamp(48px,6vw,104px)/.8 var(--sans);letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+/* one row: big counters on the left, the framed list on the right */
+.aw-wrap{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:stretch}
+.awards .aw-sum{grid-column:1/5;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:24px;margin:0}
+.awards .aw-c{gap:8px}
+.awards .aw-c b{font-size:clamp(96px,11.5vw,220px)}
+.awards .frm{grid-column:5/-1;align-self:end;background:var(--bg);margin-top:24px}
+@media (max-width:820px){.aw-wrap{grid-template-columns:1fr}.awards .aw-sum,.awards .frm{grid-column:1/-1}.awards .aw-sum{flex-direction:row;gap:32px}.awards .aw-c b{font-size:clamp(64px,20vw,120px)}}
+.awards .aw-list{border-top:0}
+.awards .aw-row:last-child{border-bottom:0}
+.awards .aw-row{padding:clamp(10px,1.1vw,16px) 0}
+.awards .aw-n{font-size:clamp(22px,2.6vw,44px)}
+.awards .md{min-width:0;height:clamp(26px,2vw,34px);padding:0 10px;font:600 11px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.awards .aw-r{grid-column:8/9}.awards .aw-p{grid-column:9/-1}
+/* hover: the name and the medals break into pixels for a moment, like the rest of the UI */
+.aw-row:hover .aw-n span,.aw-row:hover .md{animation:pxl .42s linear 1}
+.aw-row:hover .md:nth-child(2){animation-delay:.05s}.aw-row:hover .md:nth-child(3){animation-delay:.1s}.aw-row:hover .md:nth-child(4){animation-delay:.15s}
+.aw-c span{font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.aw-legend{grid-column:8/-1;display:flex;flex-wrap:wrap;gap:16px;justify-content:flex-end;font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.aw-legend span{display:inline-flex;align-items:center;gap:8px}
+.aw-list{list-style:none;border-top:1px solid var(--line2)}
+.aw-row{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-items:center;padding:clamp(14px,1.6vw,22px) 0;border-bottom:1px solid var(--line2);transition:color .4s,background .4s}
+.aw-row::before{content:"";position:absolute;inset:0;background:var(--fg);transform:scaleY(0);transform-origin:bottom;transition:transform .5s cubic-bezier(.7,0,.2,1);z-index:-1}
+.aw-row:hover{color:var(--bg)}
+.aw-row:hover::before{transform:scaleY(1)}
+.aw-i{grid-column:span 1;font:500 11px/1 var(--sans);letter-spacing:.06em;color:var(--dim);padding-left:6px;font-variant-numeric:tabular-nums}
+.aw-row:hover .aw-i,.aw-row:hover .aw-r{color:var(--bg)}
+.aw-n{grid-column:2/8;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em;font:600 clamp(28px,4.4vw,76px)/1 var(--sans);letter-spacing:-.04em}
+.aw-n span{display:inline-block;transform:translateY(calc((1 - var(--ro,1)) * 105%))}
+.aw-r{grid-column:8/10;font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.aw-p{grid-column:10/-1;display:flex;gap:6px;justify-content:flex-end;padding-right:6px}
+.md{display:inline-grid;place-items:center;min-width:clamp(30px,2.6vw,42px);height:clamp(30px,2.6vw,42px);padding:0 6px;font:600 12px/1 var(--sans);font-style:normal;letter-spacing:.04em;border:1.5px solid currentColor}
+.md.g{background:var(--acc);border-color:var(--acc);color:#0c0c0b}
+.md.s{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.aw-row:hover .md.s{background:var(--bg);color:var(--fg);border-color:var(--bg)}
+.md.sl{border-style:dashed}
+@media (max-width:820px){.aw-c{grid-column:span 6}.aw-legend{grid-column:1/-1;justify-content:flex-start}.aw-n{grid-column:2/-1}.aw-r{grid-column:2/6}.aw-p{grid-column:6/-1}}
+
+/* the hero's paper grid (6 columns × rows of 5 per screen, 4px dot raster) on other screens; ink or white lines by theme */
+.gridbg::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(90deg,var(--gl) 1px,transparent 1px) 0 0/calc(100% / 6) 100%,
+             linear-gradient(180deg,var(--gl) 1px,transparent 1px) 0 0/100% calc(100svh / 5),
+             radial-gradient(var(--gd) 1px,transparent 1.4px) 0 0/4px 4px}
+.gridbg{--gl:rgba(255,255,255,.07);--gd:rgba(255,255,255,.06)}
+.gridbg.light{--gl:rgba(12,12,11,.1);--gd:rgba(12,12,11,.08)}
+.gridbg .mk{position:absolute;width:8px;height:8px;background:var(--fg);z-index:0;pointer-events:none}
+
+/* 02 directions — a narrow band right after the hero */
+.dirs{padding-bottom:clamp(22px,3vw,40px)}
+.dirs .sh{margin-bottom:0}
+.dr-list{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);border-left:1px solid var(--line2);position:relative;z-index:1}
+.dr-list li{position:relative;display:flex;align-items:baseline;gap:14px;padding:clamp(14px,1.6vw,22px) 14px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);
+  font:600 clamp(22px,2.6vw,46px)/1 var(--sans);letter-spacing:-.04em;transition:background .35s,color .35s;cursor:default}
+.dr-list li b{font:500 10px/1 var(--sans);letter-spacing:.06em;color:var(--dim);font-variant-numeric:tabular-nums;transform:translateY(-.9em)}
+.dr-list li:hover{background:var(--fg);color:var(--bg);animation:pxl .42s linear 1}
+.dr-list li:hover b{color:var(--bg)}
+.dr-list li i{position:absolute;right:10px;bottom:10px;width:6px;height:6px;background:var(--acc);opacity:0;transition:opacity .2s}
+.dr-list li:hover i{opacity:1}
+/* hover preview: a small card follows the cursor and flips through the cases of that discipline */
+.dr-list li{cursor:pointer}
+.dr-prev{position:fixed;left:0;top:0;z-index:150;width:clamp(200px,17vw,300px);pointer-events:none;opacity:0;transform:translate(-999px,-999px);transition:opacity .2s}
+.dr-prev.on{opacity:1}
+.dp-img{position:relative;aspect-ratio:16/10;overflow:hidden;background:#111;border:1px solid var(--fg);transform:scale(.6);transform-origin:0 0;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.dr-prev.on .dp-img{transform:none}
+.dp-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.dp-img img.cur{opacity:1}
+.dp-img img.cur.px{animation:pxw .26s linear 1}
+.dp-img::after{content:"";position:absolute;right:6px;bottom:6px;width:6px;height:6px;background:var(--acc)}
+.dp-cap{display:flex;gap:8px;align-items:center;margin-top:4px;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.dp-cap b{background:var(--fg);color:var(--bg);padding:3px 5px;font-weight:600;font-variant-numeric:tabular-nums}
+.dp-cap span{overflow:hidden;text-overflow:ellipsis;background:var(--bg);color:var(--fg);padding:3px 5px}
+@media (hover:none){.dr-prev{display:none}}
+.dr-run{display:flex;justify-content:space-between;gap:16px;padding-top:12px;font:500 11px/1.2 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim);position:relative;z-index:1}
+@media (max-width:820px){.dr-list{grid-template-columns:1fr 1fr}.dr-list li{font-size:clamp(18px,5.4vw,28px)}}
+
+/* frame like the hero selection box: thin border, square handles, ruler and a bold counter on top */
+.frm{position:relative;isolation:isolate;border:1px solid var(--line2);margin-top:44px}
+.frm>.hd{position:absolute;width:7px;height:7px;margin:-4px 0 0 -4px;background:var(--bg);border:1px solid var(--fg);z-index:2}
+.frm>.tl{left:0;top:0}.frm>.tr{left:100%;top:0}.frm>.bl{left:0;top:100%}.frm>.br{left:100%;top:100%;background:var(--fg)}
+.frm>.rl{position:absolute;left:0;right:0;top:-14px;height:6px;opacity:.5;
+  background:repeating-linear-gradient(90deg,var(--fg) 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,var(--fg) 0 1px,transparent 1px 50px);background-size:auto 3px,auto 6px;background-repeat:repeat-x;background-position:0 100%,0 100%}
+.frm>.ix{position:absolute;left:0;bottom:calc(100% + 22px);font:700 clamp(15px,1.15vw,20px)/1 var(--sans);letter-spacing:.02em;font-variant-numeric:tabular-nums}
+
+/* 06 contact */
+.contact{display:flex;flex-direction:column;gap:clamp(28px,4vw,56px)}
+.contact .sh{margin-bottom:0}
+.mega{display:flex;align-items:center;justify-content:space-between;gap:24px;color:var(--fg);border-bottom:1px solid var(--line2);padding-bottom:clamp(16px,2vw,28px)}
+.mg-l{font:600 clamp(56px,13vw,240px)/.85 var(--sans);letter-spacing:-.05em;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.mg-a{flex:none;width:clamp(64px,9vw,160px);aspect-ratio:1;background:var(--fg);position:relative;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.mg-a::after{content:"";position:absolute;inset:32%;border-top:2px solid var(--bg);border-right:2px solid var(--bg)}
+.mega .mg-l{transform:translateX(-30%);opacity:0;transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .6s}
+.mega .mg-a{transform:rotate(-90deg) scale(.6);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.mega.in .mg-l{transform:none;opacity:1}
+.mega.in .mg-a{transform:none}
+.mega.in:hover .mg-l{transform:translateX(.04em)}
+.mega.in:hover .mg-a{transform:none;animation:none!important}
+/* "Let's talk": now and then letters break into big pixels — one letter, a few, or a wave across the word */
+.gch{display:inline-block;white-space:pre}
+.gw{display:inline-block;white-space:nowrap}
+.gch.px{animation:pxbig2 .6s linear 1 forwards;animation-delay:var(--dl,0s)}
+@keyframes pxbig2{0%{filter:url(#px24)}25%{filter:url(#px16)}50%{filter:url(#px10)}75%{filter:url(#px6)}100%{filter:none}}
+.mg-a canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+@keyframes pxbig{0%{filter:url(#px10)}25%{filter:url(#px6)}45%{filter:url(#px10)}70%{filter:url(#px3)}100%{filter:none}}
+.mg-a::after{inset:auto;left:50%;top:50%;width:30%;height:30%;transform:translate(-50%,-50%)}
+@media (prefers-reduced-motion:reduce){.mega .mg-l,.mega .mg-a{transform:none;opacity:1}}
+.soc{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line2)}
+.soc a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:18px 14px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2);color:var(--fg);transition:background .35s,color .35s}
+.soc a:first-child{border-left:1px solid var(--line2)}
+.soc a b{font:600 clamp(20px,2.2vw,34px)/1 var(--sans);letter-spacing:-.03em}
+.soc a span{font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.soc a:hover{background:var(--fg);color:var(--bg)}
+.soc a:hover span{color:var(--bg)}
+.contact footer{display:flex;justify-content:space-between;gap:12px;padding:0;font:500 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+@media (max-width:820px){.soc{grid-template-columns:1fr}.soc a{border-left:1px solid var(--line2)}}
+/* 02 about — editorial text block; words rise out of their line mask with scroll */
+.ab-body{flex:1;display:grid;grid-template-columns:repeat(12,1fr);gap:16px;align-content:center;padding:clamp(40px,6vw,96px) 0}
+.ab-kicker{grid-column:1/4;align-self:start;padding-top:.6em;font:500 11px/1.5 var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.ab-lead{grid-column:4/-1;font:500 clamp(32px,4.4vw,80px)/1.04 var(--sans);letter-spacing:-.035em;text-wrap:balance;max-width:17em}
+.ab-grid{border-top:1px solid var(--line2);padding-top:16px}
+.ab-col{grid-column:span 4}
+.ab-col:first-child{grid-column:4/8}
+.ab-col:nth-child(2){grid-column:8/-1}
+.ab-col .tag{margin-bottom:14px}
+.ab-col p{font:400 clamp(15px,1.25vw,19px)/1.4 var(--sans);letter-spacing:-.005em;max-width:32em}
+/* word mask */
+.rv .wm{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.rv .wi{display:inline-block;transform:translateY(calc((1 - var(--r,1)) * 105%));will-change:transform}
+@media (max-width:820px){.ab-kicker{grid-column:1/-1;padding-top:0}.ab-lead{grid-column:1/-1}.ab-col:first-child,.ab-col:nth-child(2){grid-column:1/-1}}
+
+/* ---------- light stage for the first screen: paper ground, ink grid and ink UI ---------- */
+.hero{--paper:#d5d4cf;--ink:#0c0c0b;background:var(--paper);color:var(--ink)}
+.h-grid{background:linear-gradient(90deg,rgba(12,12,11,.1) 1px,transparent 1px) 0 0/calc(100% / 6) 100%,
+  linear-gradient(180deg,rgba(12,12,11,.1) 1px,transparent 1px) 0 0/100% calc(100% / 5),
+  radial-gradient(rgba(12,12,11,.08) 1px,transparent 1.4px) 0 0/4px 4px}
+.h-grid .mk{background:var(--ink)}
+.h-sel{border-color:rgba(12,12,11,.5);color:var(--ink)}
+.h-sel .hd{background:var(--paper);border-color:var(--ink)}
+.h-sel .rl{filter:invert(1)}
+.h-sel .wh{background:var(--ink);color:var(--paper)}
+.h-sel .sp{color:rgba(12,12,11,.6)}.h-sel .sp b{color:var(--ink)}
+.h-sel .orb{border-color:rgba(12,12,11,.5)}.h-sel .orb::after{border-color:rgba(12,12,11,.3)}
+.hero .h-title{color:var(--ink)}
+.hero .h-title:hover .g,.hero .h-title:hover .a{background:var(--ink);color:var(--paper)}
+.hero .pill{border-color:var(--ink);color:var(--ink);background:transparent;backdrop-filter:none}
+.hero a.pill:hover{background:var(--ink);color:var(--paper)}
+.hero .pill.solid{background:var(--acc);border-color:var(--acc);color:#000}
+.hero .pill.solid:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hero .h-thumbs button::before{background:rgba(12,12,11,.22)}
+.hero .h-thumbs button:nth-child(5n+2)::after{background:rgba(12,12,11,.5)}
+.hero .h-thumbs button:hover::before{background:rgba(12,12,11,.7)}
+.hero .h-thumbs button.done::before{background:rgba(12,12,11,.6)}
+.hero .h-thumbs button[aria-current=true]::before{background:rgba(12,12,11,.3)}
+.hero .h-thumbs .tip{background:var(--ink);color:var(--paper)}
+.hero .h-thumbs button i{background:var(--ink)}
+/* lead text in the top-left corner of the stage; now and then one word breaks into pixels */
+.h-lead{position:absolute;top:58px;left:var(--pad);z-index:4;width:max(200px,min(calc(50vw - var(--fw) / 2 - var(--pad) - 30px),480px));margin:0;color:var(--ink);
+  font:500 clamp(16px,1.45vw,28px)/1.1 var(--sans);letter-spacing:-.03em;text-wrap:balance}
+.h-lead .w{display:inline-block}
+.h-lead .w.px{animation:pxw .5s linear 1}
+/* now and then a word is marked with a black block, like a selection in an editor */
+.h-lead .w.hl{background:var(--ink);color:var(--paper);box-shadow:0 0 0 .1em var(--ink);animation:pxw .35s linear 1}
+@keyframes pxw{0%{filter:url(#px10)}30%{filter:url(#px6)}65%{filter:url(#px3)}100%{filter:none}}
+/* every UI control glitches into pixels for a moment on hover */
+@keyframes pxl{0%{filter:url(#px6)}40%{filter:url(#px3)}75%,100%{filter:none}}
+.bar a:hover,.m-btn:hover,.pill:hover,.filters button:hover,.all-toggle:hover .ic,.more:hover .ic,.soc a:hover,.mega:hover .mg-a,
+.case-bar .act button:hover,.case-bar .act a:hover,.case-foot button:hover b,.h-nav:hover .sqi,.h-hit:hover .sqi,.h-title:hover .g,
+.card:hover .go,.src-note a:hover,.case-head .meta a:hover{animation:pxl .42s linear 1}
+@media (prefers-reduced-motion:reduce){.h-lead .w.px{animation:none}}
+/* scroll-down button: black square with a chevron, bottom-right of the stage (desktop only) */
+.h-down{position:absolute;right:var(--pad);bottom:64px;z-index:5;width:clamp(56px,4.6vw,80px);aspect-ratio:1;background:var(--ink);color:var(--paper);cursor:pointer}
+.h-down i{position:absolute;left:50%;top:50%;width:24%;height:24%;border:0 solid currentColor;border-right-width:2px;border-bottom-width:2px;transform:translate(-50%,-70%) rotate(45deg);transition:margin-top .35s cubic-bezier(.2,.7,.2,1)}
+.h-down::after{content:"";position:absolute;left:8px;bottom:8px;width:6px;height:6px;background:var(--acc)}
+.h-down:hover i{margin-top:6px}
+/* phones: smaller, on the tags row at the right, clear of the "open case" button */
+@media (max-width:820px){.h-down{width:44px;bottom:160px}.h-down::after{left:5px;bottom:5px;width:4px;height:4px}}
+/* tags sit in the top-right corner of the stage */
+.h-tagbar{position:absolute;top:58px;right:var(--pad);z-index:5;max-width:46%;justify-content:flex-end}
+.h-sel .sp{display:none}
+/* black controls: side arrows and the "view case" plate */
+.h-nav .sqi{background:var(--ink);color:var(--paper)}
+.h-nav.next .sqi::after,.h-nav.prev .sqi::after{background:var(--acc)}
+.h-nav{width:21%}
+/* the front preview is a link; a black plate follows the cursor over it */
+.h-hit{position:absolute;left:50%;top:var(--fy);width:var(--fw);height:var(--fh);transform:translate(-50%,-50%);z-index:3;cursor:none;outline:none}
+.h-hit .sq{position:absolute;left:0;top:0;transition:transform .16s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.h-hit .sqi{position:absolute;width:clamp(112px,9.5vw,156px);aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;padding:12px;background:var(--ink);color:var(--paper);
+  font:600 11px/1.15 var(--sans);letter-spacing:.08em;text-transform:uppercase;transform:translate(-50%,-50%) scale(.4);opacity:0;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s}
+.h-hit .sqi i{align-self:flex-end;font-style:normal;font:300 clamp(30px,2.6vw,42px)/1 var(--sans);color:var(--paper)}
+.h-hit .sqi::after{content:"";position:absolute;left:12px;bottom:12px;width:6px;height:6px;background:var(--acc)}
+.h-hit:hover .sqi,.h-hit:focus-visible .sqi{transform:translate(-50%,-50%) scale(1);opacity:1}
+.h-hit:focus-visible .sq{left:50%;top:50%;transform:none!important}
+@media (hover:hover){.hero .h-open-wrap{display:none}}
+.hero .pill.solid{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hero .pill.solid:hover{background:var(--acc);border-color:var(--acc);color:#000}
+@media (hover:none){.h-nav .sqi{background:rgba(12,12,11,.88)}}
+
+/* ---------- phones ---------- */
+@media (max-width:820px){
+  .hero{--fw:calc(100vw - 116px);--fh:min(calc(var(--fw) * 1.2),calc(100svh - 440px));--fy:calc(44px + (100svh - 44px - 290px) / 2)}
+  .h-sel .sp{display:none}
+  .h-sel .wh{left:auto;right:0;bottom:-24px}
+  .hero .h-tagbar{top:auto;bottom:170px;left:var(--pad);right:auto;justify-content:flex-start;max-width:calc(100% - 2 * var(--pad));gap:4px}
+  .h-lead{top:54px;width:calc(100% - 2 * var(--pad));font-size:14px;line-height:1.12}
+  .hero .h-tagbar .pill{padding:5px 8px;font-size:9px;border-width:1px}
+  .hero{--fy:calc(44px + 84px + (100svh - 44px - 320px) / 2)}
+  .h-lead{font-size:13.5px;line-height:1.15}
+  /* "Все кейсы" row: one line, counter and plus at the right */
+  .all-toggle{grid-template-columns:1fr auto auto!important;gap:14px}
+  .all-toggle .lbl{font-size:clamp(40px,12.5vw,96px);white-space:nowrap}
+  .all-toggle .cnt{grid-column:auto;margin:0;white-space:nowrap;font-size:14px}
+  .all-toggle .hint{display:none}
+  .all-toggle .ic{grid-column:auto;width:52px}
+  /* awards: number, name, medals under the name; the "—" region column is dropped */
+  .awards .aw-row{grid-template-columns:28px 1fr;gap:8px 10px}
+  .awards .aw-i{grid-column:1}
+  .awards .aw-n{grid-column:2}
+  .awards .aw-r{display:none}
+  .awards .aw-p{grid-column:2;justify-content:flex-start;flex-wrap:wrap;padding-right:0}
+  .awards .md{height:26px;padding:0 8px;font-size:10px}
+  .awards .aw-sum{justify-content:flex-start}
+  .more{gap:14px}.more .lbl{font-size:clamp(26px,8vw,48px)}
+  .h-sel .orb{width:calc(var(--fw) * .26)}
+  .scr{scroll-margin-top:44px}
+  .cases .sec-h{top:44px}
+}
+@media (max-width:520px){
+  .h-row{padding-bottom:58px}
+  .about .ab-body{padding:48px 0 40px}
+  .all-toggle .hint{display:none}
+  .all-toggle{grid-template-columns:auto 1fr auto}
+  .all-toggle .cnt,.all-toggle .ic{grid-column:auto}
+  .aw-c{grid-column:span 4}
+}
+</style>
+</head>
+<body>
+<!-- pixelate filters (block size 3 / 6 / 10 px) for hover glitches and the hero lead -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <!-- AF logo (logo-af.svg), reused in the bar and the footer; takes the text colour -->
+  <symbol id="logo-af" viewBox="0 0 681.61 583.79"><g fill="currentColor"><rect x="92.46" y="83.4" width="589.15" height="83.4"/><rect y="250.19" width="572.31" height="83.4"/><rect y="416.99" width="431.42" height="83.4"/><rect x="306.32" y="208.5" width="500.39" height="83.4" transform="translate(306.32 806.71) rotate(-90)"/><rect x="-125.1" y="291.89" width="500.39" height="83.4" transform="translate(-208.5 458.69) rotate(-90)"/></g></symbol>
+  <filter id="px24" x="0" y="0"><feFlood x="6" y="6" width="12" height="12"/><feComposite width="24" height="24"/><feTile result="a"/><feComposite in="SourceGraphic" in2="a" operator="in"/><feMorphology operator="dilate" radius="6"/></filter>
+  <filter id="px16" x="0" y="0"><feFlood x="4" y="4" width="8" height="8"/><feComposite width="16" height="16"/><feTile result="a"/><feComposite in="SourceGraphic" in2="a" operator="in"/><feMorphology operator="dilate" radius="4"/></filter>
+  <filter id="px3" x="0" y="0"><feFlood x="1" y="1" width="1" height="1"/><feComposite width="3" height="3"/><feTile result="a"/><feComposite in="SourceGraphic" in2="a" operator="in"/><feMorphology operator="dilate" radius="1.5"/></filter>
+  <filter id="px6" x="0" y="0"><feFlood x="1" y="1" width="4" height="4"/><feComposite width="6" height="6"/><feTile result="a"/><feComposite in="SourceGraphic" in2="a" operator="in"/><feMorphology operator="dilate" radius="1"/></filter>
+  <filter id="px10" x="0" y="0"><feFlood x="2" y="2" width="6" height="6"/><feComposite width="10" height="10"/><feTile result="a"/><feComposite in="SourceGraphic" in2="a" operator="in"/><feMorphology operator="dilate" radius="2"/></filter>
+</svg>
+<div class="progress" id="prog"></div>
+
+<header class="bar">
+  <div class="l"><a class="brand" href="#/"><svg class="logo" viewBox="0 0 681.61 583.79" aria-hidden="true"><use href="#logo-af"/></svg>ANTON FROS</a></div>
+  <div class="mid clock" id="clock">SPB 00:00:00</div>
+  <button class="m-btn" id="m-btn" aria-expanded="false" aria-controls="m-nav"><span class="m-lbl">Меню</span><i aria-hidden="true"></i></button>
+  <nav class="r" id="m-nav"><a href="#work">Работы</a><a href="#awards">Награды</a><a href="#contact">Контакты</a></nav>
+</header>
+
+<div class="hero-wrap">
+<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Избранные кейсы">
+  <div class="h-grid" aria-hidden="true"><i class="mk"></i></div>
+  <canvas id="drum" aria-hidden="true"></canvas>
+  <a class="h-hit" id="h-hit" href="#/" aria-label="Смотреть кейс"><span class="sq"><span class="sqi">Смотреть кейс<i aria-hidden="true">↗</i></span></span></a>
+  <div class="h-sel" id="h-sel" aria-hidden="true">
+    <b class="hd tl"></b><b class="hd tc"></b><b class="hd tr"></b><b class="hd ml"></b><b class="hd mr"></b><b class="hd bl"></b><b class="hd bc"></b><b class="hd br"></b>
+    <span class="rl"></span>
+    <span class="lb ix" id="h-ix">[ 001 / 026 ]</span>
+    <span class="lb wh" id="h-wh">W: 0000 &nbsp;H: 0000</span>
+    <span class="lb sp" id="h-sp"></span>
+  </div>
+  <button class="h-nav prev" id="h-prev" aria-label="Предыдущий слайд"><span class="sq"><span class="sqi"><span class="nm"><b id="h-prev-ix">026</b><span id="h-prev-t">Prev</span></span><span data-chev="l"></span></span></span></button>
+  <button class="h-nav next" id="h-next" aria-label="Следующий слайд"><span class="sq"><span class="sqi"><span class="nm"><b id="h-next-ix">002</b><span id="h-next-t">Next</span></span><span data-chev="r"></span></span></span></button>
+  <div class="ui">
+    <a class="h-title" id="h-title" href="#/"><span class="g" id="h-g"></span></a>
+    <div class="h-row">
+      <div class="h-ctrl">
+        <div class="pills h-open-wrap">
+         <a class="pill solid" id="h-open" href="#/">Открыть кейс ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pills h-tagbar" id="h-tags"></div>
+  <p class="h-lead" id="h-lead">Современный художник, работающий арт-директором. 10&nbsp;лет собираю визуальные системы: рисую шрифты и&nbsp;логотипы, оживляю персонажей, руковожу съёмками и&nbsp;придумываю креативы, которые запоминаются</p>
+  
+  <a class="h-down" id="h-down" href="#dirs" aria-label="Пролистать первый экран"><i aria-hidden="true"></i></a>
+  <div class="h-thumbs" id="thumbs" role="tablist" aria-label="Таймлайн кейсов"><span class="tip" id="tl-tip"></span></div>
+</section>
+</div>
+
+<section class="scr dirs gridbg" id="dirs" aria-labelledby="dirs-h">
+  <header class="sh"><h2 class="tag" id="dirs-h">[ 02 ] Направления</h2><span>9 дисциплин</span><span>От идеи до продакшна</span><span>Art Director / Type Designer</span></header>
+  <ul class="dr-list">
+    <li data-c="logos-v2 kontakt tevredens bkvch logos-v1"><b>01</b>Branding<i></i></li>
+    <li data-c="zenit-lion bkvch teremok avangard tevredens"><b>02</b>Identity<i></i></li>
+    <li data-c="teremok tevredens kontakt apicenna"><b>03</b>Packaging<i></i></li>
+    <li data-c="perfokarta tevredens-type luns-muns shpala nowatorus ebenya ea-font 35mm"><b>04</b>Fonts<i></i></li>
+    <li data-c="kontakt geo-2 red-cardinal zenit-lion geo-1"><b>05</b>Illustration<i></i></li>
+    <li data-c="izhora avangard apicenna"><b>06</b>Web<i></i></li>
+    <li data-c="izhora apicenna zenit-lion avangard"><b>07</b>Motion<i></i></li>
+    <li data-c="pbp halloween type-fashion samurai"><b>08</b>Production<i></i></li>
+    <li data-c="35mm avangard pbp logos-v2 sluhi"><b>09</b>Art direction<i></i></li>
+  </ul>
+  <div class="dr-prev" id="dr-prev" aria-hidden="true"><div class="dp-img"><img alt=""><img alt=""></div><div class="dp-cap"><b id="dp-n">01 / 05</b><span id="dp-t"></span></div></div>
+  <div class="dr-run"><span>[ 009 / 009 ]</span><span>Saint Petersburg — remote</span></div>
+</section>
+
+<section class="scr cases" id="work" aria-labelledby="work-h">
+  <header class="sh"><h2 class="tag" id="work-h">[ 03 ] Работы</h2><span>26 кейсов</span><span>Behance + Dprofile</span><span>Брендинг / шрифты / каллиграфия</span></header>
+  <button class="all-toggle" id="all-toggle" aria-expanded="false" aria-controls="all-cases">
+    <span class="lbl">Все кейсы</span><span class="cnt">[ 026 ]</span><span class="hint" id="all-hint">Смотреть все кейсы</span><span class="ic" aria-hidden="true"></span>
+  </button>
+  <div id="all-cases" hidden>
+    <div class="sec-h">
+      <span class="sec-n">Показано [ <span id="count">026</span> ]</span>
+      <div class="filters" id="filters" role="group" aria-label="Фильтр"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <button class="more" id="more" hidden><span class="lbl">Смотреть ещё</span><span class="cnt" id="more-n">+06</span><span class="ic dn" aria-hidden="true"></span></button>
+  </div>
+</section>
+
+
+<section class="scr awards light gridbg" id="awards" aria-labelledby="aw-h">
+  <header class="sh"><h2 class="tag" id="aw-h">[ 04 ] Награды</h2><span>Профессиональные конкурсы</span><span>Россия / СЗФО</span><span>Медали и шорт-листы</span></header>
+  <div class="aw-wrap">
+  <div class="aw-sum">
+    <div class="aw-c"><b class="cnt-up" data-to="6">06</b><span>наград</span></div>
+    <div class="aw-c"><b class="cnt-up" data-to="3">03</b><span>шорт-листа</span></div>
+    
+  </div>
+  <div class="frm"><b class="hd tl"></b><b class="hd tr"></b><b class="hd bl"></b><b class="hd br"></b><span class="rl"></span>
+  <ol class="aw-list">
+    <li class="aw-row"><span class="aw-i">01</span><span class="aw-n"><span>Silver Mercury</span></span><span class="aw-r">СЗФО</span><span class="aw-p"><i class="md g">Gold</i><i class="md s">Silver</i><i class="md s">Silver</i><i class="md b">Bronze</i></span></li>
+    <li class="aw-row"><span class="aw-i">02</span><span class="aw-n"><span>Marspo Awards</span></span><span class="aw-r">—</span><span class="aw-p"><i class="md s">Silver</i><i class="md b">Bronze</i></span></li>
+    <li class="aw-row"><span class="aw-i">03</span><span class="aw-n"><span>Sreda</span></span><span class="aw-r">—</span><span class="aw-p"><i class="md sl">Short list</i></span></li>
+    <li class="aw-row"><span class="aw-i">04</span><span class="aw-n"><span>Dprofile Award</span></span><span class="aw-r">—</span><span class="aw-p"><i class="md sl">Short list</i></span></li>
+    <li class="aw-row"><span class="aw-i">05</span><span class="aw-n"><span>White Square</span></span><span class="aw-r">—</span><span class="aw-p"><i class="md sl">Short list</i></span></li>
+  </ol>
+  </div>
+  </div>
+</section>
+
+<section class="scr contact gridbg" id="contact" aria-labelledby="ct-h">
+  <i class="mk" style="left:calc(100% / 6 - 4px);top:calc(100svh / 5 * 2 - 4px)" aria-hidden="true"></i>
+  <header class="sh"><h2 class="tag" id="ct-h">[ 05 ] Контакты</h2><span>Открыт к фрилансу и фуллтайму</span><span>Saint Petersburg</span><span id="foot-xy">[—]</span></header>
+  <a class="mega" href="https://instagram.com/fros_one" target="_blank" rel="noopener"><span class="mg-l">Let's talk</span><span class="mg-a" aria-hidden="true"></span></a>
+  <nav class="soc" aria-label="Соцсети">
+    <a href="https://instagram.com/fros_one" target="_blank" rel="noopener"><b>Instagram</b><span>@fros_one</span></a>
+    <a href="https://www.behance.net/anton_fros" target="_blank" rel="noopener"><b>Behance</b><span>anton_fros</span></a>
+    <a href="https://dprofile.ru/antonfros" target="_blank" rel="noopener"><b>Dprofile</b><span>antonfros</span></a>
+  </nav>
+  <footer><span class="brand"><svg class="logo" viewBox="0 0 681.61 583.79" aria-hidden="true"><use href="#logo-af"/></svg>© Anton Fros</span><span>Портфолио 2026</span></footer>
+</section>
+
+
+
+<div class="xh xh-h" aria-hidden="true"></div><div class="xh xh-v" aria-hidden="true"></div><div class="xh xh-dot" aria-hidden="true"></div><div class="xh xh-lbl" aria-hidden="true"></div>
+
+<article class="case" id="case" aria-hidden="true">
+  <div class="case-bar">
+    <div class="crumbs" id="crumbs"></div>
+    <div class="act">
+      <button id="prev" aria-label="Предыдущий" data-chev="l"></button>
+      <button id="next" aria-label="Следующий" data-chev="r"></button>
+      <button id="close">✕ ESC</button>
+    </div>
+  </div>
+  <div class="case-head">
+    <h1 id="c-title"></h1>
+    <div class="meta" id="c-meta"></div>
+  </div>
+  <div class="case-body" id="c-body"></div>
+  <div class="src-note" id="c-src"></div>
+  <div class="case-foot">
+    <button id="f-prev"><span>Предыдущий</span><b id="f-prev-t"></b></button>
+    <button id="f-next"><span>Следующий</span><b id="f-next-t"></b></button>
+  </div>
+</article>
+
+<script>
+/* ===================== DATA ===================== */
+const BH='https://mir-s3-cdn-cf.behance.net/project_modules/';
+const DP='https://cdn.dprofile.ru/';
+// Behance: id -> modules ("~" = BH prefix)
+const BEH={"72989371":["~fs_webp/f1694572989371.5bfaeffd14769.jpg","~fs_webp/ce7ef572989371.5bfaeffd168a2.jpg","~fs_webp/39c70872989371.5bfaeffd15c54.jpg","~max_3840_webp/f65a4072989371.5bfaeffd151e3.jpg","~max_3840_webp/00e5ca72989371.5c063dbbb5bfd.jpg","~fs_webp/42d8e872989371.5c08fa627668e.jpg","~max_3840_webp/92f85a72989371.5c18d1f4cfd7d.jpg","https://www.youtube.com/embed/vq0nn46-X_o","~1400_webp/7bd87c72989371.5c77fbfd33cbf.jpg","~fs_webp/a1587372989371.5c18d1f4cf1e3.jpg","~fs_webp/fc000672989371.5c18d1f4cf8fd.jpg","~max_3840_webp/5628c972989371.5c3c8101f1a69.jpg","~fs_webp/9fcff672989371.5c3c8101f147a.jpg","~fs_webp/610c6c72989371.5c08fa6276f52.jpg"],
+"78067983":["~1400_webp/19fd9a78067983.5c9a478186500.jpg","~1400_webp/ed1f2578067983.5c9a41b99a7bd.jpg","~1400_webp/a35a0378067983.5d287cab3d57c.jpg","~1400_webp/f0d5c478067983.5c9a41b99a5a9.jpg","~1400_webp/f37b4078067983.5d820d6d10c34.jpg","~1400_webp/9d99d978067983.5c9a424e398f5.jpg","~1400_webp/592b4778067983.5d820e5167bf2.jpg","~1400_webp/7f1e0f78067983.5c9a50e6c868d.jpg","~1400_webp/0d0ffd78067983.5d820e51682aa.jpg","~1400_webp/47edfa78067983.5d287e645d8d6.jpg","~1400_webp/28bfb678067983.5d2d94ddba6e6.jpg","~1400_webp/fc349f78067983.5d30ac714a34a.jpg","~1400_webp/d3bdab78067983.5d30ad615339d.jpg","~1400_webp/95ab6178067983.5d820d6d11286.jpg","~1400_webp/bceac178067983.5d82166a12cf0.jpg","~1400_webp/ce45fb78067983.5d82166a126de.jpg"],
+"79770733":["~1400_webp/9f03c379770733.5ccd7c0d09c9d.jpg","~1400_webp/3e58fa79770733.5ccd7c0d09f5c.jpg","~1400_webp/a0c88d79770733.5ccd7c0d0acb8.jpg","~1400_webp/76a81079770733.5ccd7c0d0931f.jpg","~1400_webp/c5aa6979770733.5ccd7c0d08d7f.jpg","~1400_webp/783a1a79770733.5ccd7c0d0a16c.jpg","~1400_webp/cece9979770733.5ccd7c0d0a6c6.jpg","~1400_webp/1634a679770733.5ccd7c0d0aaa2.jpg","~1400_webp/509dd479770733.5ccd7c0d098b4.jpg","~1400_webp/7a87fd79770733.5ccd7c0d087de.jpg","~1400_webp/07c94d79770733.5ccd7c0d0857f.jpg"],
+"87280891":["~max_3840_webp/1e617787280891.5db2f5279144d.jpg","~max_3840_webp/5a4e7b87280891.5db2f527900d8.jpg","~max_3840_webp/3bbc7687280891.5db2f5278d229.jpg","~max_3840_webp/a5e63d87280891.5db2f52790941.jpg","~max_3840_webp/6937ff87280891.5db2f52791cfb.jpg","~max_3840_webp/e6362e87280891.5db2f5278fa19.jpg","~max_3840_webp/032af987280891.5db2f5278e1d3.jpg","~max_3840_webp/97f6a287280891.5db2f5278c819.jpg","~max_3840_webp/5e5ad287280891.5db2f5278d95a.jpg","~max_3840_webp/bd827387280891.5db2f5278ea22.jpg","~max_3840_webp/16b8a487280891.5db2f5278f151.jpg","~max_3840_webp/3d1a3487280891.5dde978f50b94.jpg","~max_3840_webp/5f1acb87280891.5dde9aea9a40c.png"],
+"89919657":["~fs_webp/c2811589919657.6a847d82369aa.png","~1400_webp/01b67289919657.5e426033c0176.png","~1400_webp/0488a189919657.5e42608c276bf.png","~1400_webp/1e323389919657.5f06ebb8c87a5.png","~1400_webp/546a2989919657.5e42608c27db4.png","~1400_webp/ca174989919657.5e42647d08c39.png","~1400_webp/41b93b89919657.5e426102d1620.png","~1400_webp/af686c89919657.5e426302897ab.png","~1400_webp/6b6de589919657.5e4263028b7df.png","~1400_webp/d9d90089919657.5e4263028a36c.png","~1400_webp/e74ca589919657.5e4263028aab9.png","~1400_webp/70923f89919657.5e4263028b214.png","~1400_webp/df4eb489919657.5e4263869cdde.png","~1400_webp/0eb21d89919657.5e4263869c579.png","~1400_webp/22119f89919657.5e426db4692ea.png","~1400_webp/70bdb789919657.5e5fca4e657b0.png","~1400_webp/189f2089919657.5e5fca4e65f99.png","~1400_webp/58759689919657.5e6a02f0a7761.png","~1400_webp/8892bf89919657.5f06ebb8c7995.png","~1400_webp/0eea2789919657.5f06ebb8c6df2.png","~1400_webp/2be26f89919657.5f06ebb8c73f5.png","~1400_webp/ac46e389919657.5f0717fc1a4d0.png","~1400_webp/ce6dc289919657.5f06ebb8c8e7c.png","~1400_webp/4de8da89919657.5f06ebb8c6212.png"],
+"91083641":["~1400_webp/24e40891083641.5e2a923ea8025.jpg","~1400/204a8191083641.5e2a8f8569107.gif","~1400_webp/b3a9cd91083641.5e28691460aa8.jpg","~1400_webp/f0748c91083641.5e2aa94fcd7a1.jpg","~1400_webp/b796bf91083641.5e2aa6e755669.jpg","~1400_webp/84de6391083641.5e2869145fcc3.jpg","~1400_webp/9fe7f991083641.5e286914623ab.jpg","~1400_webp/49822391083641.5e286f3780d14.jpg","~1400_webp/eef33e91083641.5e286c5577d40.jpg","~1400_webp/db135991083641.5e2969dfe8053.jpg","~1400_webp/d122e191083641.5e296c9cde8b2.jpg","~1400/0d341191083641.5e2aa1fa9435a.gif","~1400_webp/2bd11491083641.5e2998b062ee0.jpg","~1400_webp/7b1cf191083641.5e299c6122a57.jpg","~1400_webp/0a81a691083641.5e299cd897b73.jpg","~1400_webp/71aa4791083641.5e2aa67972e65.jpg","~1400_webp/46c21991083641.5e2aa67972692.jpg","~1400_webp/4baee191083641.5e2a98c923cd7.jpg","~1400/377d4a91083641.5e2aa6e754bd9.gif","~fs_webp/63406391083641.5e2aab414224b.jpg"],
+"95296231":["~1400_webp/83e2ee95296231.5e99f65030b3d.png","~max_3840_webp/35d62795296231.5e99edc47cf93.jpg","~max_3840_webp/59a09a95296231.5e9474967ce3c.jpg","~max_3840_webp/e4e54495296231.5e9474967c78b.jpg","~max_3840_webp/07f71295296231.5e9474967c093.jpg","~1400_webp/191c2295296231.5e99f650321f8.png","~fs_webp/e81d7f95296231.5e99f41450508.jpg","~fs_webp/ff58a095296231.5e99f36e89ad3.jpg","~fs_webp/94bbe495296231.5e99f36e8aa9d.jpg","~fs_webp/d4e23f95296231.5e99f36e8b952.jpg","~fs_webp/6aa7c595296231.5e99f36e8b21f.jpg","~1400_webp/9bfbb595296231.5e99f65030542.png","~max_3840_webp/cb2a2195296231.5e99f4f88b5b6.jpg","~max_3840_webp/ed517695296231.5e99f4f88ae62.jpg","~max_3840_webp/4bd9e595296231.5e99f6503193e.jpg","~max_3840_webp/df6bf795296231.5e99f65031331.jpg","~1400_webp/05528095296231.5e99f79134667.png"],
+"104821361":["~1400_webp/12b487104821361.5f6b6535b216b.jpg","~1400_webp/545f13104821361.5f7adbb94418c.jpg","~1400_webp/740f8f104821361.5f7304f985a5a.jpg","~1400_webp/da4324104821361.5f6c9c27b44ae.jpg","~1400_webp/037c25104821361.5f74498c3c417.jpg","~fs/d1b107104821361.5f731381e725f.gif","~1400_webp/1d8a38104821361.5f6c9c27b4c69.jpg","~1400_webp/d1d324104821361.5f720a43c7417.jpg","~1400/23cacf104821361.5f744135b1faf.gif","~1400_webp/5491db104821361.5f7466fac1d8e.jpg","~1400_webp/19cff2104821361.5f7304f9860c5.jpg","~1400_webp/bde122104821361.5f7452591aaf8.jpg","~1400_webp/2ecbb7104821361.5f7339f8909e6.jpg","~1400_webp/4044ee104821361.5f731743aae63.jpg","~1400/c14857104821361.5f743f3ab5189.gif","~1400_webp/47f25d104821361.5f745ac0f1c5d.jpg","~1400_webp/33630f104821361.5f7333458acf7.jpg","~1400_webp/ad4d13104821361.5f7450b963593.jpg","~1400_webp/e78f76104821361.5f7453d033b9c.jpg","~1400_webp/ef4e1a104821361.5f73276f01463.jpg","~1400_webp/e06971104821361.5f7339f890f77.jpg","~1400/eabc5a104821361.5f74488721050.gif","~1400_webp/234a79104821361.5f733fec6503f.jpg","~1400_webp/265424104821361.5f742c46c32f4.jpg","~1400_webp/491dc5104821361.5f746925acf83.jpg","~1400/08316d104821361.5f744734bf789.gif","~1400_webp/976765104821361.5f74447474fbe.jpg","~1400_webp/265575104821361.5f7438f770d05.jpg","~1400_webp/f2f69a104821361.5f7454e659c2e.jpg","~1400_webp/901c6c104821361.5f74622b66087.jpg","~1400_webp/aacc06104821361.5f74a92f5c2e6.jpg"],
+"123019771":["~max_3840_webp/b30103123019771.62ce8d60e549a.png","~max_3840_webp/8cc61a123019771.62ce8d60ead1e.png","~max_3840_webp/32afdf123019771.62ce8d60e5b3e.png","~max_3840_webp/d95333123019771.62ce8d60ea571.png","~max_3840_webp/7af158123019771.62ce8d60e82e1.png","~max_3840_webp/a6826b123019771.62ce8d60e993e.png","~max_3840_webp/686d1d123019771.62ce8d60e7c9a.png","~max_3840_webp/1add2c123019771.62ce8d60e9f19.png","~max_3840_webp/eb84a5123019771.62ce8d60e748e.png","~max_3840_webp/da6420123019771.62ce8d60e92f1.png","~max_3840_webp/da7c9f123019771.62ce8d60e8b0a.png","~max_3840_webp/04757b123019771.61976ddde7d11.jpg","~max_3840_webp/25377b123019771.62ce8d60e6ced.png","~max_632_webp/3d076c123019771.62ce8d7c34a47.png"],
+"151252381":["~max_3840_webp/1f6086151252381.63088f621dba4.jpg",{r:[["disp/18455a151252381.630886f16bf6a.jpeg",0.331],["disp/8f758f151252381.630886f16ce6f.jpeg",0.331],["disp/b2ccfc151252381.630886f16c69e.jpeg",0.331]]},"~max_3840_webp/a957b5151252381.630886f214460.jpeg",{r:[["disp/97c891151252381.63088bbe79588.jpg",0.498],["disp/871604151252381.63088bbe78da8.jpg",0.498]]},"~max_3840_webp/c10b96151252381.63088bbfa7ca6.jpg","~max_3840_webp/536246151252381.63088bbfa85ca.jpeg",{r:[["disp/2c35b1151252381.63088bbf1031c.jpg",0.331],["disp/230301151252381.6308afa396054.jpg",0.331],["disp/37928e151252381.63088bbf0fab7.jpg",0.331]]},"~max_3840_webp/358d47151252381.6308afa3e2bb8.jpg","~max_3840_webp/8dd519151252381.63088bbfa8e49.jpg","~fs_webp/3268cd151252381.63089049e162d.jpg"],
+"152873835":["~max_3840_webp/d81c48152873835.632597a85fe0f.png","~max_3840_webp/33f9d8152873835.632597a858ad8.png","~max_3840_webp/0f3d6e152873835.632597a85ade2.png","~max_3840_webp/4f6d74152873835.632597a857da8.png","~max_3840_webp/d0ae32152873835.632597a85a448.png","~max_3840_webp/e81df9152873835.632597a85d40e.png","~max_3840_webp/7275ad152873835.632597a860766.png","~max_3840_webp/467c67152873835.632597a85c15b.png","~max_3840_webp/be34e6152873835.632597a860fed.png","~max_3840_webp/fc0212152873835.632597a85df73.png","~max_3840_webp/44bf0e152873835.632597a859758.png","~max_3840_webp/6676e5152873835.632597a85b787.png","~max_3840_webp/3d8704152873835.632597a85cab3.png","~max_3840_webp/a569d9152873835.632597a85f4c9.png","~max_632_webp/b90608152873835.632597a85eb8f.png"],
+"176817161":["~max_3840_webp/ab4fff176817161.64d107fa2c722.jpg",{r:[["1400_webp/057001176817161.64cb6068707a2.jpg",0.498],["1400_webp/42d632176817161.64cb60686f968.jpg",0.498]]},"~max_3840_webp/6053fd176817161.64d107fa2b58a.jpg",{r:[["1400_webp/31e262176817161.64cb606947fe8.jpg",0.498],["1400_webp/869fc2176817161.64cb606946fd7.jpg",0.498]]},{r:[["1400_webp/344099176817161.64d107f79ab01.jpg",0.498],["1400_webp/106963176817161.64d107f799d2f.jpg",0.498]]},"~max_3840_webp/36c629176817161.64d107fa29544.jpg",{r:[["1400_webp/b7c3ff176817161.64d107f8d498c.jpg",0.543],["1400_webp/cf7ba5176817161.64d107f8d3aeb.jpg",0.453]]},"~max_3840_webp/5cea84176817161.64d107fa2a347.jpg","~fs_webp/33aa4f176817161.64d231b1372c4.jpg"],
+"204855071":["~max_3840_webp/fe498c204855071.66b0c8da2f8b4.png","~max_3840_webp/1e5b0c204855071.66b0c8da32f82.png","~max_3840_webp/3957b0204855071.66b0c8da33c8b.png","~max_3840_webp/72ce54204855071.66b0c8da3126f.png","~max_3840_webp/800a06204855071.66b0c8da2fdd8.png","~max_3840_webp/daa2cf204855071.66b0c8da305b8.png","~max_3840_webp/16083d204855071.66b0c8da30d6c.png","~max_3840_webp/69aee4204855071.66b0c8da34762.png","~max_3840_webp/51f6d0204855071.66b0c8da32798.png","~max_3840_webp/314668204855071.66b0c8da33763.png","~max_3840_webp/e874c3204855071.66b0c8da32272.png","~max_3840_webp/e42b85204855071.66b0c8da34f36.png","~max_3840_webp/a7687d204855071.66b0c8da35721.png","~max_3840_webp/b304ae204855071.66b0c8da31d54.png","~max_632_webp/97e65d204855071.66b0c8da2f34a.png"],
+"214354947":["~max_3840_webp/c28516214354947.6756f63ba1771.jpg","https://kinescope.io/embed/bi3ppKXuMpCgDxZGoXq9HJ","~max_3840_webp/29e1c4214354947.6756f4c39970f.jpg","~fs_webp/986ee6214354947.6756f4c39c517.jpg","~fs/2e49ab214354947.6756f4c39aa81.gif","~fs_webp/73e0fc214354947.6756f4c3989d5.jpg","~fs/55ffc4214354947.6756f4c397b2f.gif","~fs_webp/2a3937214354947.6756f4c39b1c6.jpg","~fs/1a0988214354947.6756f4c39bfee.gif","~fs_webp/a0493e214354947.6756f4c398f88.jpg","~fs_webp/35d84d214354947.6756f4c39a263.jpg","~fs/c4cf4d214354947.6756f4c39cbf6.gif","~max_3840_webp/26da69214354947.6756f4c39830a.jpg","~fs_webp/39fc61214354947.6756f4c39b8ef.jpg"],
+"217558899":["https://kinescope.io/embed/uH6zNeW2yJgwS3BrWW1qnW","~fs_webp/d9470d217558899.679259b603d94.png","~fs_webp/cf9c68217558899.67925bb505730.png","~fs_webp/6900bb217558899.67925bb50903b.png","~fs_webp/5a0901217558899.67925bb50985d.png","~fs_webp/9ead15217558899.67925bb505cba.png","~fs_webp/cb5c15217558899.67925bb50ad62.png","~fs_webp/7f80ba217558899.67925bb50649a.png","~fs_webp/b65496217558899.67925bb506c21.png","~fs_webp/4b1a81217558899.67925bb509e1e.png","~fs_webp/6663a5217558899.67925bb50c8d9.png","~fs_webp/08e6a2217558899.67925bb50744b.png","~fs_webp/4e6336217558899.6792639d578c1.png","~fs_webp/c696af217558899.67925bb507bee.png","~fs_webp/a58c4e217558899.67925bb50815d.png","~fs_webp/f1e01a217558899.67925bb50be14.png","~fs_webp/18407d217558899.67925bb50d63a.png","~fs_webp/83a991217558899.67925bb50ce6a.png","~fs_webp/9e0754217558899.67925bb50b62d.png","~fs_webp/4a915a217558899.67925bb50a69c.png","~fs_webp/12acd6217558899.67925bb5088cf.png","~fs_webp/f8b760217558899.67925bb50e27a.png"],
+"254458051":["~fs_webp/25c7a5254458051.6a8475cd40859.png","~fs_webp/2172d4254458051.6a846d8780583.png","~fs_webp/6e9ea1254458051.6a8465680ad0f.png","~fs_webp/32d6fe254458051.6a84661465cb5.png","~fs_webp/0aac41254458051.6a84661465332.png","~fs_webp/177b81254458051.6a846614658ed.png","~fs_webp/1f51b2254458051.6a84661464eaa.png","~fs_webp/e6eaa6254458051.6a8466e8ad693.png","~fs_webp/1fdbf5254458051.6a84681f7d76d.png","~fs_webp/c471de254458051.6a84681f7e013.png","~fs_webp/ecd3e5254458051.6a8479de3c22a.png","~fs_webp/1c71c0254458051.6a86fa81c8811.png","~fs_webp/c13ede254458051.6a8468f1c8678.png","~fs_webp/ab222f254458051.6a846bb5c9000.png","~fs_webp/4ef207254458051.6a846bb5c9b81.png","~fs_webp/4e38a7254458051.6a846bb5c95e3.png","~fs_webp/0b28c8254458051.6a846bb5c89fc.png","~fs_webp/9a7c15254458051.6a846c54092a8.png","~fs_webp/75db9c254458051.6a846c9c425b3.png","~fs_webp/c06fed254458051.6a846cd73f02e.png","~fs_webp/5bb948254458051.6a846d163c880.png","~fs_webp/9cf15b254458051.6a846d44d05fd.png","~fs_webp/37f780254458051.6a847053a8f8c.png","~fs_webp/da98a1254458051.6a847053a880e.png","~fs_webp/76318d254458051.6a847147cb670.png","~fs_webp/05b0a6254458051.6a84787a6d83e.png"],
+"257768643":["~max_3840_webp/4703da257768643.6ae31449d16d9.png",{r:[["1400_webp/49bb49257768643.6ae9fa52128ac.jpg",0.481],["1400_webp/096537257768643.6ae9fa52130be.jpg",0.515]]},"~max_3840_webp/9a6dca257768643.6ae31449d1a94.png","~max_3840_webp/fd1b32257768643.6ae315fdd72a4.jpg","~max_3840_webp/691c75257768643.6ae31449d12e2.png","~max_3840_webp/0045ea257768643.6ae315fdd653e.png","~max_3840_webp/5e268e257768643.6ae31449d0e45.png","~max_3840_webp/c3b707257768643.6ae315fdd5304.png","~max_3840_webp/740aec257768643.6aec41a286143.png","~max_3840_webp/9fd390257768643.6ae315fdd6d2e.jpg","~max_3840_webp/e09fe5257768643.6aec4bb8bb432.png",{r:[["1400_webp/793ebb257768643.6ae315fc0df7a.jpg",0.498],["1400_webp/62fb81257768643.6ae315fc0da03.jpg",0.498]]},"~max_3840_webp/79b0eb257768643.6ae315fdd5a4f.jpg",{r:[["1400_webp/3b6590257768643.6ae315fd002c0.jpg",0.527],["1400_webp/a921ad257768643.6ae9fec846674.jpg",0.469]]},"~max_3840_webp/86a556257768643.6ae38779e0fb0.jpg","~max_3840_webp/5df481257768643.6ae9fd4ad29e6.png","~max_3840_webp/81343d257768643.6ae9eb43c7bfd.jpg",{r:[["1400_webp/186a18257768643.6ae9eb4297dd5.jpg",0.469],["1400_webp/747e5e257768643.6ae9eb4298736.jpg",0.527]]},"~max_3840_webp/bb9437257768643.6ae9eb43c814c.jpg","~max_3840_webp/c2b3e6257768643.6ae9f86c426c8.png",{r:[["1400_webp/c907bb257768643.6ae9f5e4a2be6.jpg",0.498],["1400_webp/6a04d4257768643.6ae9f5e4a260b.jpg",0.498]]},{r:[["1400_webp/522355257768643.6ae9f5e59f116.jpg",0.498],["1400_webp/dcf456257768643.6ae9f5e59eb8d.jpg",0.498]]},"~max_3840_webp/666e33257768643.6ae9f5e6a803b.jpg",{r:[["1400_webp/6b082e257768643.6ae9f965daa6a.jpg",0.528],["1400_webp/764718257768643.6ae9f965db269.jpg",0.469]]},"~max_3840_webp/084d9d257768643.6ae9fd60dd915.png","~max_3840_webp/351481257768643.6ae9f86c41ca3.jpg",{r:[["1400_webp/fca141257768643.6ae9f9d0d7a41.jpg",0.469],["1400_webp/928ff2257768643.6ae9f9d0d7416.jpg",0.527]]},{r:[["1400_webp/146add257768643.6ae9f9d1c9624.jpg",0.528],["1400_webp/e470c5257768643.6ae9f9d1c9b45.jpg",0.469]]},"~max_3840_webp/696bfc257768643.6ae9f9d2ad556.jpg","~max_3840_webp/7ad00e257768643.6ae9faee4e95e.png","~max_3840_webp/5f1db5257768643.6ae9fd8f36fef.png"]};
+
+// Dprofile-only cases: strings = image path (optionally "|width"), {v} = video embed, {t} = text
+const DPF={
+"193712":["files/60/59519/CASE_IMAGE/8ce58b87-18e2-409a-a7e7-6433453c2268_615741872.png","files/60/59519/CASE_IMAGE/ed68e6bc-78b6-4905-a7b5-c10796d454d6_1607345299.png",{t:"Синегривый Лев: +1 игрок в составе ФК «Зенита»\n\nКлуб пришёл к нам с ростовой куклой для матчевых активаций. Мы вернули ему полноценного персонажа — со стратегией, характером, гороскопом, 2D- и 3D-образом, айдентикой и собственным мерчом."},"files/60/59519/CASE_IMAGE/aad69985-9a4e-4a9c-91ef-46128d9946b0_1234715046.png",{t:"Задача, которая была поставлена: превратить героя в полноценный медиаактив клуба — персонажа, который сам генерирует контент, собирает аудиторию и зарабатывает своим образом."},{v:"https://kinescope.io/embed/876g685UR1TJHSnujnVFnX"},{t:"Синегривый Лев жил только в день матча: обнимал детей на фан-променаде, фотографировался, махал трибунам — и исчезал до следующей игры.\n\nДобрый, милый, всеми любимый — и при этом невидимый за пределами стадиона. Ростовая кукла работала аниматором, но не работала брендом: без стратегии, без характера, без единого визуального языка, без коммерческого потенциала."},"files/60/59519/CASE_IMAGE/5b28f339-3851-4b72-8afd-c32a6ccdceac_1084057182.png",{t:"У персонажа появилась собственная айдентика: знак-голова героя, шрифтовой логотип, кобрендинговые версии с эмблемой ФК «Зенит», фирменная пара шрифтов Dela Gothic One + Nunito Sans, фирменная цветовая палитра и правила для всех носителей."},"files/60/59519/CASE_IMAGE/d2358b05-473a-4a03-a687-2b1f2c0e59b6_1122357469.png","files/60/59519/CASE_IMAGE/6598ca7d-f9c5-4fd4-b719-106ae1cc8b2e_271553972.png","files/60/59519/CASE_IMAGE/055267b1-c074-4a50-a7da-f74fd83118a3_1115469983.png",{t:"От милого талисмана — к доброму хулигану\n\nИсследование показало: Льва любят, но не запоминают. Милота без характера не даёт ни виральности, ни медиаповодов. Мы пересобрали платформу персонажа — бережно, не ломая то, за что его полюбили."},"files/60/59519/CASE_IMAGE/51bfb557-6dc1-42b6-9220-6412a9d5a9e6_190135708.png",{t:"Мы перебрали десятки пластик и пропорций, чтобы найти образ, который остаётся собой везде: в костюме на стадионе, в стикерпаке, в ТВ-графике и на полке магазина. Поиск характера в эскизах: от «слишком спортивного» до «слишком мягкого» — и точное попадание."},"files/60/59519/CASE_IMAGE/cd22902b-deaf-4826-acae-a4d925d7daad_340458292.png","files/60/59519/CASE_IMAGE/da6988e9-1540-4c4a-8518-b4d42cbbe866_1307156563.png",{t:"У Льва есть даже гороскоп\n\nЛичный бренд — это глубина проработки. Мы просчитали астрологический портрет персонажа: Солнце в Весах — стремление объединять и уравновешивать энергию толпы; асцендент в Близнецах — артистизм, пластика и мгновенная реакция; Луна во Льве — тепло, щедрость и любовь к празднику.\n\nЭто не шутка, а рабочий инструмент: гороскоп задаёт аниматорам и SMM-команде рамку мимики, пластики и реакций — Лев ведёт себя одинаково «в теле» и в соцсетях."},"files/60/59519/CASE_IMAGE/8ada275a-4132-4a0c-af87-4e02e1673b99_1134161591.png","files/60/59519/CASE_IMAGE/adaf3033-bbef-4cb4-a2da-fb521b08497e_1068447053.png","files/60/59519/CASE_IMAGE/1a9a5f07-7ba1-49cb-8240-8c1095ad359d_1139308772.png|1368","files/60/59519/CASE_IMAGE/ca400c73-e74b-40c7-aef8-4a3b2778d57a_1165831892.png|1520",{t:"Мерч, который хочется носить, а не только «болеть»\n\nФлаффи-капсула с фактурой гривы, детская коллекция с леттерингом и знаком Льва: худи, бомберы, панамы, сумки и тапки. Персонаж перестал быть картинкой — он стал продуктом на полке клубного магазина."},"files/60/59519/CASE_IMAGE/5568bc50-4ba2-4ba3-a08a-6f394e0748e2_1096971347.png|923","files/60/59519/CASE_IMAGE/7f73df19-11fc-4fec-9c62-2fdeab227886_1578010164.png|1200","files/60/59519/CASE_IMAGE/fd5d6b7e-8f4d-40aa-8002-ad11388b6795_628762902.png|1200","files/60/59519/CASE_IMAGE/2dfc112b-b22c-4f36-a4e8-e50190096960_1043017724.png|900","files/60/59519/CASE_IMAGE/5e3caa38-6506-4d1a-84b6-c7b8072fe0e0_2138004738.png|1008","files/60/59519/CASE_IMAGE/7e3c3dff-6677-4282-b439-2c8846987daf_1104055108.png|985","files/60/59519/CASE_IMAGE/1295b3f0-a2c8-40e8-b81a-b4f9c1956774_1155623286.png","files/60/59519/CASE_IMAGE/632e30d4-7930-4004-8bf6-d86984e8f07d_762950731.png|671","files/60/59519/CASE_IMAGE/cade5bfe-1699-4dc4-af3d-c66bb6799c3c_870675899.png|671","files/60/59519/CASE_IMAGE/74fae841-bfde-47f8-b08a-e6b15321a94a_628598065.png|671","files/60/59519/CASE_IMAGE/cf4b2de0-c52c-4b0c-a27d-996b54f7f068_127903620.png|671","files/60/59519/CASE_IMAGE/295af844-ddf6-4aec-b63e-d892c1cc0050_485305165.png|671","files/60/59519/CASE_IMAGE/ff8570b8-1a1b-46d5-8cf8-8685c944fb5d_1911495.png|671","files/60/59519/CASE_IMAGE/f9f04424-faa9-436d-a3fa-22629b012f9a_419851146.png|671",{t:"У ФК «Зенит» появился +1 игрок: актив, который работает 365 дней в году — а не 90 минут в день матча."},"files/60/59519/CASE_IMAGE/f30f514c-689f-4982-a4c6-6504d99047a8_1966525153.png"],
+"194054":["files/8/7623/CASE_IMAGE/6daf5411-5a77-43d0-b8ae-90126fbb32d2_2097577803.jpg","files/8/7623/CASE_IMAGE/af77862d-f1b8-48b4-a2fb-42d6f04b0c3a_2111400369.jpg","files/8/7623/CASE_IMAGE/a87396e8-aab9-44ca-bade-3ff576a782f6_1618910422.jpg","files/8/7623/CASE_IMAGE/664df055-8d40-4b4d-b8d2-452d5cdf30ce_378974241.jpg","files/8/7623/CASE_IMAGE/c1f21648-5ef4-4c72-a524-358f2e4a41cc_2019478654.jpg","files/8/7623/CASE_IMAGE/7f568728-b8d3-4634-a4d3-7d4f58826b9d_1722038942.jpg","files/8/7623/CASE_IMAGE/704842f6-b1dd-4ab8-b4f4-c5b339feb102_1483463569.jpg","files/8/7623/CASE_IMAGE/00068ae2-76e1-4a42-8995-48cfb2431841_1563498543.jpg","files/8/7623/CASE_IMAGE/3aab6693-50c2-4d53-951d-0e4aa95c6f8f_1650357220.jpg","files/8/7623/CASE_IMAGE/8436d571-c0ec-4fcf-8d91-8444ea5a4b42_995056095.jpg","files/8/7623/CASE_IMAGE/d9a1fa06-62f8-48cb-93fb-f918e1941e59_925913683.jpg","files/8/7623/CASE_IMAGE/92619778-e2b1-4ca3-93c4-0ba10f9606d5_1652261853.jpg","files/8/7623/CASE_IMAGE/f7a1aa4c-021b-4c43-9eaf-5c1e93b926f1_39936530.jpg","files/8/7623/CASE_IMAGE/4018a15e-e7c0-498e-b646-4faa9e3ceb67_1065809507.jpg","files/8/7623/CASE_IMAGE/28eb1ba7-693c-4688-927a-fd7c0aa0e077_2116869226.jpg"],
+"148320":["files/8/7623/CASE_IMAGE/85623d47-cc4d-4ad4-a634-87f20809c715_401717370.png","files/8/7623/CASE_IMAGE/e79814e0-bcda-43f8-a315-14bd6c97c000_1779608672.png","files/8/7623/CASE_IMAGE/13ff47c1-05f3-4328-b77d-f33e2bc0d45f_1805340426.png","files/8/7623/CASE_IMAGE/e9a1de15-e210-4b8c-8228-e1d51e9c8b4b_1274331088.png","files/8/7623/CASE_IMAGE/c04aa4ba-f2dd-44b8-a949-91286edf10a0_1190645711.png","files/8/7623/CASE_IMAGE/ba6fbdd8-90c8-407d-a5ef-0ac016da636d_1776686020.jpg","files/8/7623/CASE_IMAGE/ad3b4620-0394-4168-8952-e4b5fc212605_2063547584.jpg","files/8/7623/CASE_IMAGE/ed179819-f7be-4c54-ad3e-e4f207ab4a1c_1374967050.png","files/8/7623/CASE_IMAGE/a4fd5b20-3476-4d37-aacf-2bec421992ac_796360143.png","files/8/7623/CASE_IMAGE/39baa9c9-30e1-4375-8911-3917a04285e1_1023325521.png","files/8/7623/CASE_IMAGE/21456b16-f50f-4ddb-9d1b-6cfb752e954e_761829463.png","files/8/7623/CASE_IMAGE/a9c87918-30fa-437d-8d73-26f30aed267d_843638096.png","files/8/7623/CASE_IMAGE/57673e62-d03c-4ee7-823b-dbf821f5bf7c_87442311.jpg","files/8/7623/CASE_IMAGE/5c7fa7ee-24a9-43f2-b8d1-2d3833924d2e_783348019.jpg","files/8/7623/CASE_IMAGE/e3a2dc94-ecbd-4bbc-9890-f367f37e00de_315110539.png","files/8/7623/CASE_IMAGE/e6c76c42-23f5-451f-976b-16bd58d5cc71_1645682841.png","files/8/7623/CASE_IMAGE/c557cc2d-4417-4dce-a64a-e26cb91f3111_551189551.png","files/8/7623/CASE_IMAGE/be318efb-71d9-49ab-bab6-60bfd8824dce_1766841144.png","files/8/7623/CASE_IMAGE/509d0ea5-4a15-4c62-899a-6b4d3805dc9f_144617297.png","files/8/7623/CASE_IMAGE/c2946a11-7b88-4892-be4e-21a92a18c039_307356443.jpg","files/8/7623/CASE_IMAGE/45dab035-8ada-4d31-97ca-35b0e5bc3685_16724823.jpg","files/8/7623/CASE_IMAGE/a8333365-58a1-4353-b6c5-540588583333_1511435542.png","files/8/7623/CASE_IMAGE/fabb763b-072a-4d96-b890-06d4e3cdd811_413841475.png","files/8/7623/CASE_IMAGE/e1bf60aa-8fb3-482e-9fe5-2d8f50a019a8_1654355558.png","files/8/7623/CASE_IMAGE/5aa7f409-aac9-454a-bb8f-09f7b49c9421_837807666.png","files/8/7623/CASE_IMAGE/b64674f0-7a03-4d97-aa4b-4019847f00e3_606662304.png","files/8/7623/CASE_IMAGE/ce2283b3-d449-49a1-9fc4-678c92d21b5f_937017028.jpg","files/8/7623/CASE_IMAGE/e7ab8b1c-0afe-402e-b693-b0d4aad134a6_1595273189.jpg","files/8/7623/CASE_IMAGE/fa374a42-1ff4-48ff-b3a7-00b0b5f61fb5_798851066.png","files/8/7623/CASE_IMAGE/d91284d0-8dc1-4675-b19d-a8d63a33ff4f_220666613.png","files/8/7623/CASE_IMAGE/66e24726-282d-48e1-b599-c64e91e42adc_1458205864.png","files/8/7623/CASE_IMAGE/13c4fea3-51ec-45b9-ac13-f12ab47775c2_637604372.png","files/8/7623/CASE_IMAGE/362dc9f8-cb5b-4f33-8a6b-816c5f15df80_638552263.png"],
+"136730":["public/59519/136730/283817062d8e264c36ea838d0eebf837ef7e30c8.png","public/59519/136730/cb0d4370440a5a5d4a474aaad364e53a9d7e2d47.jpg","public/59519/136730/73efeed4410cf6b00ca528f79de25103d7cd061f.png","public/59519/136730/44d18b0693bf314ec49a18d0f2b4e8fb68297cd4.jpg","public/59519/136730/9c197ab46b3c59c0cd7a7365a5e36f321a8f014d.gif","public/59519/136730/619b4541f18b5a53ff09f839f51c7e3fc1b55599.jpg","public/59519/136730/ca764958e6542423d70add8c00b279d2c0994b33.gif","public/59519/136730/d95f3de8b0d2830cc091c3a77568b9bc9e4088a7.jpg","public/59519/136730/133982e914a74a235efa73349b2f3d45f82ac26f.jpg","public/59519/136730/8db14bbdd3ef0986a4170fd0098e16ddb9fdb46c.jpg","public/59519/136730/a95e1f24431134e7aabbd2fbbd8363c42d42116f.jpg","public/59519/136730/f8a359ed683f3c792377a860177f2cd74b46a82e.jpg","public/59519/136730/5a9dbc398e93741f75a46679a9b4231bf66211c8.jpg","public/59519/136730/aae8aaed9401a4efd36a7d02ec8e64257932b46a.gif","public/59519/136730/a891452637b950490cd46f6bbec3482771a1600e.gif","public/59519/136730/5529644aeb97fd4f71c789985fd48dba38db0dd4.gif","public/59519/136730/9e8fee31177dc0695280609e08c75c4536fca61a.jpg","public/59519/136730/3830015177d4ed122a8af4d09a8231b8c2acb380.jpg","public/59519/136730/9da9b59aba2c580027cbca298180ee31032fc94c.jpg","public/59519/136730/e0bfe40d24ebe231eec41254d568f5877f0edbab.jpg","public/59519/136730/ffd200fc404885969ad290fd2ce97ed662f43631.jpg","public/59519/136730/ec89da6aceddfb81c6a31732b324c3d40ffbf1d2.jpg","public/59519/136730/6f7a2a921f97bc481190d434ecbb776c2faf5ce6.jpg","public/59519/136730/189902b1286faeab89803b1985bf1f335cbbfb86.gif","public/59519/136730/3532a9f5c4eb809b8ba1f9904a50d8ecd744a762.jpg","public/59519/136730/c673b57e53f03a97a23b45741fca1f7fb70fc276.jpg","public/59519/136730/7b7d8a27b63340d6a282f027c0d7f14ba001e44c.jpg","public/59519/136730/fb26cf9d4aecc4938f0f4f965a833b69643354d4.jpg","public/59519/136730/83dd9abf4073c784bef7741966f3765955784ee9.jpg","public/59519/136730/5e9887ca88be08a1c99a385764b16f7615d3fdab.jpg","public/59519/136730/0d1aaf829332717e0126dab4cc90f125f56a874d.jpg","public/59519/136730/0e62ee9065a33adf811a31b7b9651b789bad60bb.jpg","public/59519/136730/f91d6f924e0e4d3c0549762e87f0d7db7ad9e900.jpg|600","public/59519/136730/150468cac94e47cf9f202fa24180c88567623a18.jpg|600","public/59519/136730/336fa8d92cab1fee93241233f30a177405b9c786.jpg|600","public/59519/136730/0ca837d2bbab163bcaea02a53712db2cd2ab873b.jpg|600","public/59519/136730/d22e71341e9c60486a76e9e96943125f01648746.jpg|600","public/59519/136730/cafc37d5b2f921a7e67c7f34b72d35fce6447c32.jpg|600","public/59519/136730/ce82f4550511be38e3ef51e047d1a7d66de6d53c.jpg|600","public/59519/136730/69d7a13dd5d13f27b916be61c6079154b0d36191.jpg|600","public/59519/136730/77709360544c38323dd70c7ac5b9ab91f94ac74c.jpg",{t:"TEAM OXYGEN\nCreative Director: Андрей Яхновец\nСЕО: Ольга Преображенская\nArt Director: Антон Фрос\nCreative Group Head: Павел Черкун\nAccount Director: Ксения Евстигнеева\nDesigner: Александра Ивлева\nCopywriter: Айгуль Бурганова\nCopywriter: Алёна Тарасова\nCorrector: Дарья Наумова\nProject manager: Кирилл Шеховцов\n\nTEAM AVANGARD\nГалина Аистова\nМайя Мажорова\nАлёна Бондарь"}],
+"137962":[{v:"https://kinescope.io/embed/dDqQnELwkKaWxYRe4gwcBv"},"public/59519/137962/60f142ab37e467f6c97abc56c624f70695ea2dcc.jpg",{v:"https://kinescope.io/embed/gLn5VS17uDSTaYByGRG6zn"},"public/59519/137962/5b60f2c253fd8e53cad3d7e6266b103186df31d6.jpg",{v:"https://kinescope.io/embed/fRvcB2Pmf1KJht7BoxoKU8"},"public/59519/137962/17fc8e9ace1c8a97186593fc5e3a1f3906e1d1eb.jpg","public/59519/137962/b3b31b924f510600ab2a3804ce35c65ad3e4284f.jpg","public/59519/137962/60f93bdb33e294380474d9b76accfb7114e2b8f6.jpg","public/59519/137962/0025fab96349d23777a1826a29b209e1b9f69509.jpg","public/59519/137962/f018fd4059e7c7d0185205a64615cff03160a777.png","public/59519/137962/f9f61a9ca2348c70c34b9f8a69f4c689268c6f7c.jpg","public/59519/137962/d5e9c73f3ee70e1b762bc093473ae7ecc1d9c784.jpg","public/59519/137962/4853282f7878c19f0282019cea44375dd9d7f200.png","public/59519/137962/f85526ef827aeb1afed6ed0d1aa1cb31378bde28.jpg","public/59519/137962/f54530d26ed238505c0d2f1d051b2e8195665875.jpg",{t:"TEAM\nCreative Director: Андрей Яхновец\nArt Director: Антон Фрос\nGraphic Designer: Регина Хафизова\nGraphic Designer: Елена Захарова\nCreative Group Head: Павел Черкун\nCopywriter: Алёна Тарасова\nExecutive producer: Анна Юрист\nDOP: Глеб Климов\nProduction Designer: Софья Кульминская\nSound design: Лев Петров\nColor: Андрей Провоторов\nEdit: Михаил Суворов\nAccount Director: Ксения Евстигнеева"}],
+"136514":[{v:"https://kinescope.io/embed/sfh4Szd59AzmnsbYBMGVR5"},"public/59519/136514/d285f3099e4b8ec10c15dd39f0bb151deb3a9132.png","public/59519/136514/2ba36e1a163a0f545d4c16283882705c2372a316.jpg","public/59519/136514/c1be8f92bfc17a5e04780c31f078a476f7fd197d.jpg",{v:"https://kinescope.io/embed/s4RNQh3swwYJY6XtLviCh1"},"public/59519/136514/7a5774aeae9040331106319c3c53fdb7ca78cd4a.jpg","public/59519/136514/ed461728bc9f3443356cb9b84036a6df5337fbf7.png","public/59519/136514/ef1f5bdf9aa7028fd2053d0ac42513aa03535cb0.jpg","public/59519/136514/528870f355aeaf0ab600823e8e2fc88ee604c807.jpg","public/59519/136514/8a5b2c92f7e3fa4bf1a849d15bc45af9c9246084.jpg","public/59519/136514/0457322195e23714aea81e4ec376846f52c4e03b.jpg","public/59519/136514/0a19cf1e2c3ad4b932fa1fdce43ef61f3678387d.jpg","public/59519/136514/331bf55445828cf92df2e5a7149abf8cd8b33ddf.jpg","public/59519/136514/b21fb4b510495f93559c52a7171c2e014dcb9cff.jpg","public/59519/136514/fa497812c937f2d976dbf4be0631e16753d17812.jpg","public/59519/136514/d341bf7ac478b47b15eb50db367b1dd5f15229df.jpg","public/59519/136514/405aeb84d9818975559dfc8548689df65a7859bb.jpg","public/59519/136514/cd674df1c437b1d45625064e0b0cba219903dd6f.png","public/59519/136514/ed95a32d5b7dc5bd2c86467b57a048440a2e8e00.png","public/59519/136514/aab4e87de7032c59ebd886d2ddce9dade46047d8.png","public/59519/136514/3d43a500c50444cfc46f780339784e413269929e.jpg",{t:"TEAM\nArt Director: Антон Фрос\nArt Director: Марк Дубоносов\nStrategist: Сергей Чулков\nAccount Director: Ксения Евстигнеева"}],
+"134125":["public/59519/134125/80fd997d9384a69d97e13fcf86e01c72ad9b2433.png",{t:"В честь столетия Клуба мы создали мультимедийную сагу «Хроники Ижоры».\n\nИстория в стиле славянского фэнтези и манхвы о Семаге и его воинах доступна в трёх форматах: комикс-вебтун, аудиосказка и анимированный фильм."},"public/59519/134125/cfe4e29c4140ed6064da67857c9abc3465b91899.png",{t:"Часть 1"},{v:"https://kinescope.io/embed/9DQxue1yrRhG8YLgTs5Efn"},{t:"Часть 2"},{v:"https://kinescope.io/embed/fVjxNjRHPTd6Bg3oCFtL13"},"public/59519/134125/90197b0db61fdf60e4f6e2da88cf54d938fb845e.png","public/59519/134125/c7d2e7aa40e3791de76a627a1d31a537a5af12a5.jpg","public/59519/134125/57f8d238acc461f19d435fee8e00ff7c9a7f8dd5.png","public/59519/134125/fd3dfeb69dee7453771b0be2101113ebb74152cb.jpg","public/59519/134125/811aaa22bc3629a4cf3d48e2a6d755ea9cf51249.png","public/59519/134125/cd312cc28b28bb8288d558e055fbd4b08849720a.jpg","public/59519/134125/02d135603b4dfc6247b40e56d724468ad40259ab.jpg","public/59519/134125/0054020b22029b41b7546e25872cd9c17c6a426a.jpg","public/59519/134125/67345fbe38bdbf33445382cd0e90bcc3681818ea.png","public/59519/134125/24165afd56a58d3627ea682c64f8cb4caec0bb38.jpg","public/59519/134125/5966e015e0a71381c986fd374dd64919231bb903.png","public/59519/134125/0234859b812ed2f9701887ec95184053a1d254e6.jpg","public/59519/134125/eb434ccd6e7048dc71215408eff728901bd22f03.jpg","public/59519/134125/0e410525a3997ed99880795c848fec1af24e4340.jpg","public/59519/134125/fc05a43801cbf6acbc72b8060bc7ae28dce35613.jpg","public/59519/134125/611c2cf13dd56ad1b2ae98e32835cc1acb952b3a.jpg",{t:"Команда проекта\nCreative Director: Андрей Яхновец\nРежиссёр, автор сценария: Айгуль Бурганова\nХудожник: Ioanna Rvn\nЦвет: Elyn Gontie\nArt Director: Антон Фрос\nCreative Group Head: Павел Черкун\nЗвук: Роман Фокин\nMotion: Ксения Поливанова, Ольга Подшибякина, Елена Клюева, Наталья Жукова\n\nФК «Зенит» × Яндекс Плюс и Кинопоиск"}],
+"55918":["public/7623/55918/a9e10f52c4409e29599610b9cb9b07a8b70c75a5.jpg","public/7623/55918/9bd584790d7e119058c52f33755387cfca48272f.jpg","public/7623/55918/eee209df92e7f724e028e1004cb2f52845ae0f72.jpg","public/7623/55918/b949344871b48c775426f363c8d30e6005eff31e.jpg","public/7623/55918/fbca6a30b8d65f1bf4e4c2323e7787b5034b5523.jpg","public/7623/55918/f2afc8f4b2c78d46991f9c744ab2c78df5b689e8.jpg","public/7623/55918/15293e4a51b47863e0fcdeb33216841b6a8755e9.png","public/7623/55918/0e20ba9204d5cbf07799cf8610c44c55e75bfff7.jpg","public/7623/55918/ff994f6313cfaddbcda61d04457383c4675c2bd1.jpg","public/7623/55918/f7504209605b222e031410eb59ae0e2043cf44be.jpg","public/7623/55918/fcd8d109aee1d4f8fff8bdb696a30cc4cd6a58ee.jpg","public/7623/55918/2d8d2212036fcbac91b6cc1dc353dae7fe12c5ae.jpg","public/7623/55918/348075cf801565d937ef2000e71d0b0a05cec9f4.png","public/7623/55918/a849c18a33b468dba542335b9c5a01b34e089d2e.jpg","public/7623/55918/0dee30a47b69d766dc9f03259bb08a1f4e14be64.jpg","public/7623/55918/c5914a140496d9a93988d6a596b09e51ea7bd378.jpg","public/7623/55918/e21798f54094305b5b49fb755d87d857ef424cf3.jpg","public/7623/55918/049693783b2bcc2b969d4d8a861ace03ffd7f65c.jpg","public/7623/55918/26e0f9ef8119fa9b976e148440bd6a2ca3421916.jpg","public/7623/55918/45a143ab65205ae52f8853ce078148668df89aa1.jpg","public/7623/55918/e378619eed71ced755dae31f798911f9cc476192.jpg","public/7623/55918/d17217e9ac6d70de4dda5c2de25b335ad5ca3245.jpg",{t:"Team: DO Creative\nArt Director / Designer: Anton Fros\nHead of creative / Designer: Mark Dubonosov"}],
+"11968":["public/7623/11968/0affe866f3fc43da496a2d10c1cf393618ef7dcb.jpg","public/7623/11968/a6cbe7461ed04fe6ee1b8bf3f786f06b0d36e33c.jpg","public/7623/11968/703da636ddc167617ff66c3d05e9b37bda53e99c.jpg","public/7623/11968/a0478becdee0ce592fdc304a5fa8ca15a9114973.jpg","public/7623/11968/1da39d89b28bcd825ea5fdfd59499ea2bfa74101.jpg","public/7623/11968/ee4c206e085bdae8e9bb7cacc78a8a0b30b36957.jpg","public/7623/11968/a0d98106be54e845481dc49788e5c89b189af76d.jpg","public/7623/11968/1cfc13cb21c2f88dc61471876b171078e086b9bd.jpg","public/7623/11968/d880e0ac212fdf92640e08ae436a59777d4757f2.jpg","public/7623/11968/e7784b5213d8265f37abe8e7e8323e3f7e9181c4.gif","public/7623/11968/702140e4bf682a293c24ba0697a8c7a1a99302e4.jpg","public/7623/11968/4c1a7433423bd78733e5adde39429328caa0e907.jpg","public/7623/11968/40b0d4603e83a1561066a88ee0c6c43ba03307f6.jpg","public/7623/11968/8a5111be806b3e25e745f7091f298b6a5bfb6856.jpg","public/7623/11968/b64498c169256e777b6d6ce08710efabee072150.jpg","public/7623/11968/f0dea4fd8177780bf0531799837d78553ecfe9e9.jpg"]
+};
+
+// Unique case index. b = Behance id/slug, d = Dprofile id/slug, c = cover, k = categories
+const CASES=[
+ {id:"zenit-lion",t:"Синегривый Лев",sub:"Талисман ФК «Зенит»",k:["brand","char"],d:"193712/sinegrivyi-lev-talisman-fk-zenit",c:DP+"files/60/59519/COVER/1f81d115-4452-4897-9c52-0895f1628c87_239313631.png",tags:"Character · Identity · Merch"},
+ {id:"perfokarta",t:"Перфокарта",sub:"Шрифт",k:["type"],d:"194054/perfokarta-srift",c:DP+"files/8/7623/COVER/6f664e50-c52c-4b7a-911a-58095a3966cf_419186901.jpg",tags:"Type Design"},
+ {id:"pbp",t:"PBP [Piece by Piece]",k:["fashion"],b:"257768643/PBP-PIECE-BY-PIECE",d:"192534/pbp-piece-by-piece",c:"https://mir-s3-cdn-cf.behance.net/projects/404/d33caa257768643.Y3JvcCwxMTc0LDkxOSwyLDA.png",tags:"Fashion · Photography"},
+ {id:"logos-v2",t:"Logotypes & Marks 2020—2026",sub:"v(2)",k:["brand"],b:"254458051/logotypes-marks-2020-2026-v(2)",d:"191764/logotypes-marks-2020-2026-v2",c:"https://mir-s3-cdn-cf.behance.net/projects/404/f4ce2e254458051.Y3JvcCwxMDMxLDgwNiw0NDQsMTM1.png",tags:"Branding · Logo Design"},
+ {id:"bkvch",t:"БКВЧ 2025",k:["brand"],d:"148320/bkvc-2025",c:DP+"files/8/7623/COVER/27766f81-82e3-494e-a03d-6a6cfbbb2b08_1596528533.png",tags:"Identity"},
+ {id:"avangard",t:"ХК «Авангард» 24/25",sub:"Визуальная коммуникация",k:["brand"],d:"136730/vizualnaia-kommunikaciia-xk-avangard-2425",c:DP+"public/59519/136730/da239e32b78c44e53c55c57c28917603df05ea2e.jpg",tags:"Sport · Visual Communication"},
+ {id:"apicenna",t:"Apicenna",k:["brand","char"],d:"137962/apicenna",c:DP+"public/59519/137962/e428940299c30d7c6df5d7901f9528f6b3108661.jpg",tags:"Campaign · Video"},
+ {id:"teremok",t:"Теремок Кондитерская",k:["brand"],d:"136514/teremok-konditerskaia",c:DP+"public/59519/136514/73e6dbf35d6ac5e8b65c1c34e32dd956258085bb.jpg",tags:"Identity · Packaging"},
+ {id:"izhora",t:"Хроники Ижоры",sub:"ФК «Зенит» × Кинопоиск",k:["char"],d:"134125/xroniki-izory",c:DP+"public/59519/134125/0a3e65cdaae5c2a9b07fcc776f453d37db56c652.jpg",tags:"Webtoon · Animation"},
+ {id:"kontakt",t:"Контакт Бар",sub:"Kontakt Bar",k:["brand"],b:"217558899/kontakt-bar-KONTAKT-BAR",d:"106400/kontakt-bar",c:"https://mir-s3-cdn-cf.behance.net/projects/404/57ac41217558899.Y3JvcCwyMTI1LDE2NjIsMzg0LDYxMA.png",tags:"Logo · Illustration"},
+ {id:"tevredens-type",t:"Tevredens Typeface",k:["type"],b:"214354947/TEVREDENS-TYPEFACE",d:"98016/tevredens-typeface",c:"https://mir-s3-cdn-cf.behance.net/projects/404/58ccb2214354947.Y3JvcCwxOTk5LDE1NjQsMCwxMjM.jpg",tags:"Type Design · Branding"},
+ {id:"tevredens",t:"Tevredens",sub:"Премиальный бренд одежды",k:["brand"],d:"55918/tevredens",c:DP+"public/7623/55918/e8af2386aaab8116f8f1ee25da16a1000efa6bda.jpg",tags:"Branding"},
+ {id:"luns-muns",t:"SK Luns Muns",sub:"Free Font",k:["type"],b:"204855071/SK-Luns-Muns-Free-Font",d:"80729/sk-luns-muns",c:"https://mir-s3-cdn-cf.behance.net/projects/404/cd02e3204855071.Y3JvcCw4MDgsNjMyLDAsMA.png",tags:"Type Design · Lettering"},
+ {id:"halloween",t:"Halloween Style",k:["calli"],b:"176817161/HALLOWEEN-STYLE",c:"https://mir-s3-cdn-cf.behance.net/projects/404/3d99e3176817161.Y3JvcCwxNDAwLDEwOTUsMCwzMzY.jpg",tags:"Calligraphy · Photography"},
+ {id:"shpala",t:"SK Shpala",sub:"Free Font",k:["type"],b:"152873835/SK-Shpala-Free-Font",d:"13859/sk-shpala",c:"https://mir-s3-cdn-cf.behance.net/projects/404/23bab0152873835.Y3JvcCwyNzcwLDIxNjcsMCww.png",tags:"Type Design"},
+ {id:"sluhi",t:"Calligraphy _ Слухи Lounge",k:["calli"],b:"151252381/CALLIGRAPHY-_-sluhi-LOUNGE",c:"https://mir-s3-cdn-cf.behance.net/projects/404/64c1ee151252381.Y3JvcCwyMzM4LDE4MjksMjMxLDEyOTE.jpg",tags:"Calligraphy · Graffiti"},
+ {id:"nowatorus",t:"SK Nowatorus",sub:"Free Font",k:["type"],b:"123019771/SK-Nowatorus-Free-Font",d:"13848/sk-nowatorus",c:"https://mir-s3-cdn-cf.behance.net/projects/404/519890123019771.Y3JvcCwyNzcwLDIxNjcsMCww.png",tags:"Type Design · ФК «Динамо» 22/23"},
+ {id:"35mm",t:"35_MM Typeface",k:["type"],b:"104821361/35_MM-TYPEFACE",c:"https://mir-s3-cdn-cf.behance.net/projects/404/6ff030104821361.Y3JvcCwxMTUwLDkwMCwxMjUsMA.jpg",tags:"Typography · Art Direction"},
+ {id:"samurai",t:"Samurai ╳ Typography",k:["calli","fashion"],b:"95296231/SAMURAI-TYPOGRAPHY",c:"https://mir-s3-cdn-cf.behance.net/projects/404/7804c795296231.Y3JvcCw4MTYsNjM4LDMyMSwzMDk.jpg",tags:"Fashion · Calligraphy"},
+ {id:"logos-v1",t:"Logotypes & Marks 2018—2020",sub:"v(1)",k:["brand"],b:"89919657/logotypes-marks-2018-2020-v(1)",d:"191995/logotypes-marks-2018-2020-v1",c:"https://mir-s3-cdn-cf.behance.net/projects/404/faa15889919657.Y3JvcCwxMDMxLDgwNiw0NDQsMTM1.png",tags:"Branding · Typography"},
+ {id:"ebenya",t:"Ебеня",sub:"Шрифт / Cyrillic + Latin",k:["type"],b:"91083641/ebenja-shriftEBENYA-fontCyrillicLatin",c:"https://mir-s3-cdn-cf.behance.net/projects/404/c812e591083641.5ee7ed6ae305f.png",tags:"Typography · Calligraphy"},
+ {id:"type-fashion",t:"Typography ╳ Fashion",k:["fashion","calli"],b:"87280891/TYPOGRAPHYFASHION",d:"26945/typography-fashion",c:"https://mir-s3-cdn-cf.behance.net/projects/404/cea18f87280891.Y3JvcCwxODUzLDE0NDksMTI4LDM3Ng.jpg",tags:"Fashion · Photography"},
+ {id:"ea-font",t:"E—A Font",k:["type"],d:"11968/ea-font",c:DP+"public/7623/11968/251e2cf63dc19bb36dd6b9033e2ac0f00833a444.jpg",tags:"Type Design"},
+ {id:"red-cardinal",t:"Red Cardinal",sub:"Bird & Geometric Typography",k:["calli"],b:"79770733/RED-CARDINAL-Bird-and-Geometric-typography",c:"https://mir-s3-cdn-cf.behance.net/projects/404/6114a879770733.Y3JvcCw4MDgsNjMyLDAsMA.jpg",tags:"Calligraphy · Street Art"},
+ {id:"geo-2",t:"Geometric Typography",sub:"vol.2",k:["calli"],b:"78067983/Geometric-typography-vol2",c:"https://mir-s3-cdn-cf.behance.net/projects/404/92915b78067983.Y3JvcCw4NzUsNjg0LDI2Miw5Nw.jpg",tags:"Calligraphy · Illustration"},
+ {id:"geo-1",t:"Geometric Typography",sub:"vol.1",k:["calli"],b:"72989371/Geometric-typography",c:"https://mir-s3-cdn-cf.behance.net/projects/404/a251d972989371.Y3JvcCw5NDAsNzM1LDIzMCw5MA.jpg",tags:"Calligraphy · Graphic Design"}
+];
+const CATS=[["all","Все"],["brand","Брендинг"],["type","Шрифты"],["calli","Каллиграфия"],["fashion","Fashion"],["char","Персонажи / Motion"]];
+
+/* ===================== HELPERS ===================== */
+const $=s=>document.querySelector(s);
+const pad=(n,l=3)=>String(n).padStart(l,'0');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bhUrl=c=>c.b&&'https://www.behance.net/gallery/'+c.b;
+const dpUrl=c=>c.d&&'https://dprofile.ru/case/'+c.d;
+const fullTitle=c=>c.t+(c.sub?' — '+c.sub:'');
+
+// Behance: request a lighter rendition, fall back to the original on error
+function bhSrc(p){
+  const orig=BH+p.slice(1);
+  const light=orig.replace(/\/(max_3840_webp|fs_webp)\//,'/1400_webp/');
+  return [light,orig];
+}
+
+/* chevron arrows (no shaft) */
+const CHEV_R='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"><path d="M5.5 1.5 12 8l-6.5 6.5"/></svg>';
+const CHEV_L='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"><path d="M10.5 1.5 4 8l6.5 6.5"/></svg>';
+document.querySelectorAll('[data-chev]').forEach(el=>el.innerHTML=el.dataset.chev==='l'?CHEV_L:CHEV_R);
+
+/* ===================== GRID ===================== */
+const grid=$('#grid');
+grid.innerHTML=CASES.map((c,i)=>{
+  const src=[c.b?'BE':'',c.d?'DP':''].filter(Boolean).join('+');
+  return `<a class="card" href="#/case/${c.id}" data-i="${i}" data-k="${c.k.join(' ')}" style="--d:${i}">
+    <div class="hd"><span class="n">${pad(i+1)}</span><i></i><span>[${src}]</span></div>
+    <div class="thumb"><img loading="lazy" src="${c.c.replace('/projects/404/','/projects/808/')}" data-fb="${c.c}" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}" alt="${esc(fullTitle(c))}"><canvas aria-hidden="true"></canvas><span class="xy"></span><span class="crn a"></span><span class="crn b"></span></div>
+    <div class="ft"><div class="t">${esc(c.t)}${c.sub?`<span class="sub">${esc(c.sub)}</span>`:''}</div><span class="go" aria-hidden="true">${CHEV_R}</span></div>
+    <div class="tags">${c.tags.split(' · ').map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+  </a>`}).join('');
+// hover: pixel-mosaic resolve with glitch squares and a HUD crop, like the slider transition
+(()=>{
+  const RMc=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fx(card){
+    const img=card.querySelector('img'),cv=card.querySelector('canvas');
+    if(RMc||!img.naturalWidth){card.classList.add('lit');return}
+    const W=cv.clientWidth,H=cv.clientHeight,d=Math.min(devicePixelRatio||1,2);cv.width=W*d;cv.height=H*d;
+    const c=cv.getContext('2d');c.setTransform(d,0,0,d,0,0);const off=document.createElement('canvas'),o=off.getContext('2d');
+    const iw=img.naturalWidth,ih=img.naturalHeight,s=Math.max(W/iw,H/ih),sw=W/s,sh=H/s,sx=(iw-sw)/2,sy=(ih-sh)/2;
+    const sq=Array.from({length:16},()=>({x:Math.floor(Math.random()*W/6)*6,y:Math.floor(Math.random()*H/6)*6,s:[6,10,14,20][Math.floor(Math.random()*4)],ph:Math.random()*.8,c:Math.random()<.8?'#fff':'#c9b79c'}));
+    const hw=W*(.28+Math.random()*.14),hh=hw*.55,hx=Math.random()*(W-hw),hy=Math.random()*(H-hh);
+    const t0=performance.now();card.classList.add('anim');card.classList.remove('lit');
+    cancelAnimationFrame(card._raf);
+    (function step(now){
+      const t=Math.min(1,(now-t0)/560),e=1-t,bs=1+e*e*30;
+      if(bs>1.3){const ow=Math.max(1,Math.ceil(W/bs)),oh=Math.max(1,Math.ceil(H/bs));off.width=ow;off.height=oh;o.drawImage(img,sx,sy,sw,sh,0,0,ow,oh);c.imageSmoothingEnabled=false;c.drawImage(off,0,0,ow,oh,0,0,ow*bs,oh*bs)}
+      else{c.imageSmoothingEnabled=true;c.drawImage(img,sx,sy,sw,sh,0,0,W,H)}
+      sq.forEach(q=>{if(t<q.ph){c.fillStyle=q.c;c.fillRect(q.x,q.y,q.s,q.s)}});
+      if(t>.12&&t<.72){c.filter='grayscale(1) contrast(1.3)';c.drawImage(img,sx+hx/s*1,sy+hy/s,hw/s,hh/s,hx,hy,hw,hh);c.filter='none';
+        c.strokeStyle='#fff';c.lineWidth=1;c.strokeRect(hx+.5,hy+.5,hw,hh);c.fillStyle='#fff';c.font='500 10px "TikTok Sans",sans-serif';c.fillText(`[${Math.round(hx)}, ${Math.round(hy)}]`,hx+4,hy-5)}
+      if(t<1)card._raf=requestAnimationFrame(step);else{card.classList.add('lit');card.classList.remove('anim')}
+    })(t0);
+  }
+  grid.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')fx(card)});
+    card.addEventListener('pointerleave',()=>{cancelAnimationFrame(card._raf);card.classList.remove('anim','lit')});
+    card.addEventListener('focus',()=>card.classList.add('lit'));card.addEventListener('blur',()=>card.classList.remove('lit'));
+  });
+})();
+
+// "all cases" disclosure
+const allBtn=$('#all-toggle'),allBox=$('#all-cases');
+allBtn.querySelector('.cnt').textContent=`[ ${pad(CASES.length)} ]`;
+allBtn.addEventListener('click',()=>{const open=allBox.hidden;allBox.hidden=!open;allBtn.setAttribute('aria-expanded',open);$('#all-hint').textContent=open?'Свернуть':'Смотреть все кейсы';
+  if(open)scrollTo({top:allBtn.getBoundingClientRect().top+scrollY-41,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
+// filters
+const fEl=$('#filters');
+fEl.innerHTML=CATS.map(([k,l])=>{const n=k==='all'?CASES.length:CASES.filter(c=>c.k.includes(k)).length;return `<button data-k="${k}" aria-pressed="${k==='all'}">${l}<sup>${n}</sup></button>`}).join('');
+// show 6 cards at a time; "show more" adds the next 6 of the current filter
+const STEP=6,moreBtn=$('#more');let shown=STEP,fk='all';
+function applyGrid(){
+  let n=0,v=0;
+  grid.querySelectorAll('.card').forEach(el=>{const on=fk==='all'||el.dataset.k.split(' ').includes(fk);el.classList.toggle('hide',!on);
+    if(on){n++;const vis=n<=shown;el.classList.toggle('cut',!vis);if(vis)v++}else el.classList.remove('cut')});
+  $('#count').textContent=`${pad(v)} / ${pad(n)}`;
+  const left=n-v;moreBtn.hidden=left<=0;$('#more-n').textContent=`+${pad(Math.min(STEP,left),2)}`;
+}
+fEl.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  fEl.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  fk=b.dataset.k;shown=STEP;applyGrid();
+});
+moreBtn.addEventListener('click',()=>{const first=grid.querySelectorAll('.card:not(.hide):not(.cut)').length;shown+=STEP;applyGrid();
+  const nx=grid.querySelectorAll('.card:not(.hide):not(.cut)')[first];if(nx)nx.focus({preventScroll:true})});
+applyGrid();
+// hover coords
+grid.addEventListener('mousemove',e=>{
+  const card=e.target.closest('.card');if(!card)return;
+  const r=card.getBoundingClientRect();
+  card.querySelector('.xy').textContent=`[${pad(Math.round(e.clientX-r.left),4)}, ${pad(Math.round(e.clientY-r.top),4)}]`;
+});
+
+/* ===================== CASE VIEW ===================== */
+const caseEl=$('#case');let cur=-1;
+// lazy-load case images relative to the case scroller
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const im=e.target;im.src=im.dataset.src;io.unobserve(im)}}),{root:caseEl,rootMargin:'1200px 0px'});
+function blocksFor(c){
+  // Prefer Behance content when a case exists there (same project), else Dprofile
+  if(c.b){const id=c.b.split('/')[0];return (BEH[id]||[]).map(m=>typeof m==='object'?{row:m.r.map(([p,w])=>({i:'~'+p,bh:1,fr:w}))}:m.startsWith('~')?{i:m,bh:1}:{v:m})}
+  const id=c.d.split('/')[0];
+  return (DPF[id]||[]).map(m=>typeof m==='string'?{i:DP+m.split('|')[0],w:+(m.split('|')[1]||0)}:m);
+}
+function imgHTML(b){
+  if(b.bh){const [l,o]=bhSrc(b.i);return `<img data-src="${l}" data-fb="${o}" alt="">`}
+  return `<img data-src="${b.i}" alt="">`;
+}
+function renderBody(c){
+  const bl=blocksFor(c);let html='';let row=[];
+  const flush=()=>{if(row.length){html+=row.length>1?`<div class="row">${row.join('')}</div>`:row[0];row=[]}};
+  bl.forEach(b=>{
+    if(b.row){flush();html+=`<div class="row" style="grid-template-columns:${b.row.map(x=>x.fr+'fr').join(' ')}">${b.row.map(imgHTML).join('')}</div>`;return}
+    if(b.t){flush();html+=`<div class="txt">${esc(b.t)}</div>`;return}
+    if(b.v){flush();html+=`<div class="vid"><iframe src="${b.v}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen title="video"></iframe></div>`;return}
+    if(b.w&&b.w<1000){row.push(imgHTML(b));if(row.length===4)flush();return}
+    flush();html+=imgHTML(b);
+  });flush();
+  return html;
+}
+function openCase(i,push){
+  const c=CASES[i];if(!c)return;cur=i;
+  $('#crumbs').innerHTML=`ANTON FROS / РАБОТЫ / <b>${pad(i+1)} ${esc(c.t)}</b>`;
+  $('#c-title').innerHTML=`<span class="g">${esc(c.t)}</span>`+(c.sub?`<span class="a">${esc(c.sub)}</span>`:'');
+  const links=[c.b?`<a href="${bhUrl(c)}" target="_blank" rel="noopener">Behance ↗</a>`:'',c.d?`<a href="${dpUrl(c)}" target="_blank" rel="noopener">Dprofile ↗</a>`:''].filter(Boolean).join(' &nbsp; ');
+  $('#c-meta').innerHTML=`<div><span>Проект</span>${esc(c.sub||c.t)}</div><div><span>Направление</span>${esc(c.tags)}</div><div><span>Индекс</span>${pad(i+1)} / ${pad(CASES.length)}</div><div><span>Оригинал</span>${links}</div>`;
+  $('#c-body').innerHTML=renderBody(c);
+  io.disconnect();
+  $('#c-body').querySelectorAll('img').forEach(im=>{
+    im.addEventListener('load',()=>im.classList.add('ok'),{once:true});
+    im.addEventListener('error',()=>{if(im.dataset.fb&&im.src!==im.dataset.fb){im.src=im.dataset.fb;im.dataset.fb=''}else im.remove()});
+    io.observe(im);
+  });
+  $('#c-src').innerHTML=`<span>Источник контента: ${c.b?'Behance':'Dprofile'}</span><span>${links}</span>`;
+  const p=CASES[(i-1+CASES.length)%CASES.length],n=CASES[(i+1)%CASES.length];
+  $('#f-prev-t').textContent=p.t;$('#f-next-t').textContent=n.t;
+  caseEl.classList.add('open');caseEl.setAttribute('aria-hidden','false');caseEl.scrollTop=0;
+  document.body.style.overflow='hidden';document.title=c.t+' — Anton Fros';
+}
+function closeCase(){
+  caseEl.classList.remove('open');caseEl.setAttribute('aria-hidden','true');document.body.style.overflow='';
+  document.title='Anton Fros';cur=-1;$('#prog').style.width=0;
+  setTimeout(()=>{if(cur<0)$('#c-body').innerHTML=''},600);
+}
+const go=d=>{location.hash='#/case/'+CASES[(cur+d+CASES.length)%CASES.length].id};
+$('#close').onclick=()=>{location.hash='#/'};
+$('#prev').onclick=$('#f-prev').onclick=()=>go(-1);
+$('#next').onclick=$('#f-next').onclick=()=>go(1);
+addEventListener('keydown',e=>{if(cur<0)return;if(e.key==='Escape')location.hash='#/';if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+caseEl.addEventListener('scroll',()=>{const m=caseEl.scrollHeight-caseEl.clientHeight;$('#prog').style.width=(m>0?caseEl.scrollTop/m*100:0)+'%'});
+function route(){
+  const m=location.hash.match(/^#\/case\/(.+)$/);
+  if(m){const i=CASES.findIndex(c=>c.id===decodeURIComponent(m[1]));if(i>-1){openCase(i);return}}
+  if(cur>-1)closeCase();
+}
+addEventListener('hashchange',route);route();
+
+/* ===================== HERO SLIDER ===================== */
+// Pixel-mosaic transition with glitch squares and HUD crops (from the board refs)
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DUR=6000,TR=1100;
+const AB={brand:'BR',type:'TY',calli:'CL',fashion:'FS',char:'CH'};
+const hero=$('#hero'),cv=$('#drum'),sel=$('#h-sel'),hit=$('#h-hit');
+let W=0,H=0,DPR=1;
+let idx=-1,curIm=null,trans=null,elapsed=0,paused=false,inView=true,last=performance.now();
+const N=CASES.length;
+
+/* ---------- drum geometry (css px). The front panel is exactly the selection box (--fw × --fh) ---------- */
+const G={fw:600,fh:375,cx:0,cy:0,f:1000,R:1000,slot:1,gap:.16,rad:22,band:56,pitch:.07};
+function geom(){
+  const mob=innerWidth<=820;
+  G.fw=sel.offsetWidth-24;G.fh=sel.offsetHeight-24;G.cx=sel.offsetLeft;G.cy=sel.offsetTop;
+  const S=5;                         // panel slots around the ring: fewer = smaller, rounder ring
+  G.slot=2*Math.PI/S;G.R=G.fw/((1-G.gap)*G.slot);
+  G.f=Math.max(H*1.9,W*1.2);               // focal length: larger = flatter, more isometric
+  G.rad=mob?16:Math.max(14,Math.min(26,G.fw*.035));G.band=mob?34:Math.round(Math.max(40,G.fw*.085));
+  G.pitch=mob?.2:.24;                      // we look up at the ring, so the arc closes underneath (rad; negative = from above)
+}
+
+/* ---------- WebGL ---------- */
+let gl=cv.getContext('webgl',{alpha:true,premultipliedAlpha:true,antialias:false})||null;
+const VS='attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+const FS=`precision highp float;
+uniform vec2 uRes;uniform float uDpr;uniform vec2 uC;
+uniform float uF,uR,uSlot,uP,uPw,uPh,uRad,uBand,uTime,uEnv,uN,uPitch,uYaw,uSeed;
+uniform vec2 uGrid;uniform sampler2D uTex;
+const vec3 ACC=vec3(.788,.718,.612),INK=vec3(.047,.047,.043);
+float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float sdRR(vec2 p,vec2 b,float r){vec2 q=abs(p)-b+r;return length(max(q,0.))+min(max(q.x,q.y),0.)-r;}
+vec3 tile(float id,vec2 uv){uv=clamp(uv,.003,.997);float c=mod(id,uGrid.x),r=floor(id/uGrid.x);return texture2D(uTex,(vec2(c,r)+uv)/uGrid).rgb;}
+// one point on the drum → colour of the panel there (rgb, alpha). back=1: the far wall, seen from inside
+vec4 panel(vec3 P,float back){
+  float th=atan(P.x,P.z);                   // 0 = facing us
+  float s=(th+uYaw)/uSlot+uP,m=floor(s+.5),u=s-m;
+  // the front slide keeps full size, the others shrink as they turn away from the centre
+  float thc=(m-uP)*uSlot-uYaw;
+  vec2 hs=vec2(uPw,uPh)*.5*mix(1.,.8,smoothstep(0.,1.,abs(thc)/uSlot));
+  vec2 lp=vec2(u*uSlot*uR,-P.y);            // panel-local px, origin at the panel centre, y down
+  if(back>.5)lp.x=-lp.x;                    // from inside the ring the picture would be mirrored
+  // top / bottom: a soft anti-aliased edge instead of a pixel staircase
+  float ey=abs(lp.y)-hs.y;
+  if(ey>2.5)return vec4(0.);
+  float vA=1.-smoothstep(-2.5,2.5,ey);
+  float near=1.-smoothstep(0.,16.,-ey);     // 1 right at the top/bottom edge → 0 16px inside
+  float id=mod(mod(m,uN)+uN,uN);
+  float sd=abs(lp.x)-hs.x,B=uBand;          // only the left / right edges break up
+  if(sd>B*.9)return vec4(0.);
+  float bs=1.+uEnv*uEnv*38.;                // mosaic while flipping
+  vec3 col;
+  if(sd<-B){
+    vec2 q=bs>1.5?(floor(lp/bs)+.5)*bs:lp;
+    vec2 uv=q/(2.*hs)+.5;
+    col=tile(id,uv);
+    // left / right: the picture softens into the broken-video band — a short horizontal blur with an RGB split
+    float nx=1.-smoothstep(0.,30.,-sd-B);
+    if(nx>.01&&bs<1.5){
+      vec2 p1=1./(2.*hs);float kx=nx*nx;
+      vec3 c1=tile(id,uv+vec2(4.*kx,0.)*p1),c2=tile(id,uv-vec2(4.*kx,0.)*p1),c3=tile(id,uv+vec2(9.*kx,0.)*p1),c4=tile(id,uv-vec2(9.*kx,0.)*p1);
+      vec3 ch=(col+c1+c2+c3+c4)/5.;
+      ch=vec3(mix(ch.r,c3.r,.5*kx),ch.g,mix(ch.b,c4.b,.5*kx));
+      col=mix(col,ch,kx);
+      col+=kx*.05*step(.5,fract(lp.x/3.));
+    }
+    if(near>.01&&bs<1.5){
+      // digital fringe: RGB split and a little vertical blur fading out from the edge, plus faint scanlines
+      vec2 p1=1./(2.*hs);float k=near*near;
+      vec3 cr=tile(id,uv+vec2(3.5*k,0.)*p1),cb=tile(id,uv-vec2(3.5*k,0.)*p1);
+      vec3 cv=(tile(id,uv+vec2(0.,2.)*p1)+tile(id,uv-vec2(0.,2.)*p1)+col)/3.;
+      col=mix(col,vec3(cr.r,cv.g,cb.b),k);
+      col=mix(col,cv,k*.5);
+      col+=k*.06*step(.5,fract(lp.y/3.));
+    }
+  }else{
+    // broken-video edge: 32px macroblocks split into 32x16 / 16 / 8x4 / 4 blocks,
+    // sampled from a smeared spot, with gaps that grow toward the outside and a few tracking boxes
+    vec2 c32=floor(lp/32.);
+    float r0=h21(c32+vec2(m*3.1,uSeed*.37));
+    vec2 z=r0<.22?vec2(32.,16.):r0<.5?vec2(16.):r0<.78?vec2(8.,4.):vec2(4.);
+    z=max(z,vec2(bs));
+    vec2 bi=floor(lp/z),bc=(bi+.5)*z;
+    if(h21(c32+vec2(41.,m+uSeed))<.07){     // tracking box: thin outline around a macroblock
+      vec2 f=fract(lp/32.)*32.;float ed=min(min(f.x,32.-f.x),min(f.y,32.-f.y));
+      if(ed<1.1)return vec4(INK,.85);
+      if(length(f-16.)<2.)return vec4(ACC,1.);
+    }
+    float e=clamp((abs(bc.x)-hs.x+B)/(B*1.9),0.,1.);
+    float n=h21(bi+vec2(m*7.3,uSeed));
+    if(h21(bi+vec2(floor(uTime*6.),m))<.07)n=fract(n+.5);   // a few blocks blink
+    if(n<e*e*1.15)return vec4(0.);
+    float smr=h21(bi+5.1);
+    vec2 off=smr<.35?vec2((h21(bi+2.)-.5)*z.x*5.,0.):smr<.5?vec2(0.,(h21(bi+3.)-.5)*z.y*4.):vec2(0.);
+    vec2 sp=bc+off;sp.x=clamp(sp.x,-hs.x+2.,hs.x-2.);
+    // each block is a soft smear of its spot, not a hard sample
+    vec2 su=sp/(2.*hs)+.5,dz=vec2(z.x*.7,0.)/(2.*hs),dy=vec2(0.,z.y*.35)/(2.*hs);
+    col=(tile(id,su)*2.+tile(id,su+dz)+tile(id,su-dz)+tile(id,su+dy)+tile(id,su-dy))/6.;
+    col=mix(col,vec3(tile(id,su+dz*1.6).r,col.g,tile(id,su-dz*1.6).b),.45*e);
+    float k=h21(bi+vec2(19.1,m));
+    col*=.82+.36*h21(bi+3.7);
+    if(k<.1)col=mix(col,col.brg,.7);                       // channel shift
+    else if(k<.14)col=mix(col,ACC,.85);
+    else if(k<.17)col=INK;
+  }
+  // print texture over the covers to hide soft / upscaled images: a fine 3px dot screen + live film grain
+  {vec2 fc=gl_FragCoord.xy/uDpr,g=fract(fc/3.)-.5;
+   float dm=1.-smoothstep(.18,.34,length(g));
+   col*=1.-.13*dm;
+   col+=(h21(floor(fc)+floor(uTime*18.)*vec2(7.1,3.3))-.5)*.07;}
+  // shading: panels turning away get darker and greyer; the far wall is a faint ghost
+  float ang=back>.5?3.14159-abs(th):abs(th),gray=dot(col,vec3(.299,.587,.114));
+  // the other cases fade out instead of darkening: the light paper shows through them
+  if(back>.5)return vec4(mix(col,vec3(gray),.6),.14*vA);
+  col=mix(col,vec3(gray),smoothstep(.15,.9,ang)*.7);
+  return vec4(col,mix(1.,.28,smoothstep(.18,1.1,ang))*vA);
+}
+void main(){
+  vec2 px=vec2(gl_FragCoord.x/uDpr,uRes.y-gl_FragCoord.y/uDpr);
+  vec3 d=normalize(vec3(px.x-uC.x,-(px.y-uC.y),-uF));
+  // isometric look: the camera is above the ring and looks down at uPitch; the tilt pivots on the front panel
+  float cp=cos(uPitch),sp=sin(uPitch);
+  vec3 o=vec3(0.,-uF*sp,uR+uF*cp);
+  d=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);
+  float a=d.x*d.x+d.z*d.z,b=2.*(o.x*d.x+o.z*d.z),c=o.x*o.x+o.z*o.z-uR*uR,disc=b*b-4.*a*c;
+  vec4 outc=vec4(0.);
+  if(disc>0.){
+    float q=sqrt(disc);
+    vec4 F=panel(o+d*((-b-q)/(2.*a)),0.);
+    vec4 K=panel(o+d*((-b+q)/(2.*a)),1.);
+    float al=F.a+K.a*(1.-F.a);
+    outc=vec4(F.rgb*F.a+K.rgb*K.a*(1.-F.a),al);
+  }
+  // glitch squares across the stage while flipping — drawn behind the pictures, never over them
+  vec2 gc=floor(px/24.);float g=h21(gc+uSeed*1.7);
+  if(uEnv>.05&&g<uEnv*.012){vec3 gcol=h21(gc+9.)<.8?INK:ACC;outc=vec4(outc.rgb+gcol*(1.-outc.a),1.);}
+  gl_FragColor=outc;
+}`;
+let prog,U={},tex,atlas,actx,TW=640,TH=400,COLS=6,ROWS=Math.ceil(N/6),tileAspect=0;
+function sh(t,src){const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(s);return s}
+function initGL(){
+  prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw gl.getProgramInfoLog(prog);
+  gl.useProgram(prog);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  'uRes uDpr uC uF uR uSlot uP uPw uPh uRad uBand uTime uEnv uN uPitch uYaw uSeed uGrid uTex'.split(' ').forEach(n=>U[n]=gl.getUniformLocation(prog,n));
+  tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+  [[gl.TEXTURE_MIN_FILTER,gl.LINEAR],[gl.TEXTURE_MAG_FILTER,gl.LINEAR],[gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE],[gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE]].forEach(([k,v])=>gl.texParameteri(gl.TEXTURE_2D,k,v));
+  gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
+}
+// one texture atlas with every cover, cropped to the panel's aspect
+function buildAtlas(){
+  const A=G.fw/G.fh;if(Math.abs(A-tileAspect)<.01&&atlas)return;tileAspect=A;
+  const max=Math.min(gl.getParameter(gl.MAX_TEXTURE_SIZE),4096);
+  if(A>=1){TW=Math.min(640,Math.floor(max/COLS));TH=Math.round(TW/A)}else{TH=Math.min(640,Math.floor(max/ROWS));TW=Math.round(TH*A)}
+  atlas=document.createElement('canvas');atlas.width=TW*COLS;atlas.height=TH*ROWS;actx=atlas.getContext('2d',{willReadFrequently:true});
+  actx.fillStyle='#111';actx.fillRect(0,0,atlas.width,atlas.height);
+  gl.bindTexture(gl.TEXTURE_2D,tex);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,atlas);
+  for(let i=0;i<N;i++)loadImg(i).then(im=>putTile(i,im));
+}
+function putTile(i,im){
+  if(!im||!atlas)return;const x=(i%COLS)*TW,y=Math.floor(i/COLS)*TH,iw=im.naturalWidth,ih=im.naturalHeight,s=Math.max(TW/iw,TH/ih);
+  const sw=TW/s,shh=TH/s;actx.drawImage(im,(iw-sw)/2,(ih-shh)/2,sw,shh,x,y,TW,TH);
+  try{gl.bindTexture(gl.TEXTURE_2D,tex);gl.texSubImage2D(gl.TEXTURE_2D,0,x,y,gl.RGB,gl.UNSIGNED_BYTE,actx.getImageData(x,y,TW,TH))}catch(e){}
+}
+function size(){
+  DPR=Math.min(devicePixelRatio||1,1.5);W=hero.clientWidth;H=hero.clientHeight;
+  cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);geom();
+  if(gl){gl.viewport(0,0,cv.width,cv.height);buildAtlas()}
+}
+
+/* ---------- images ---------- */
+// covers come from Behance / Dprofile CDNs, both send CORS headers; the query keeps them apart from the non-CORS copies in cache
+function heroCands(c){
+  const q=u=>u+(u.includes('?')?'&':'?')+'gl=1';
+  return (c.c.includes('/projects/404/')?[c.c.replace('/projects/404/','/projects/808/'),c.c]:[c.c]).map(q);
+}
+const cache=new Map();
+function loadImg(i){
+  if(cache.has(i))return cache.get(i);
+  const p=new Promise(res=>{const cs=heroCands(CASES[i]);let k=0;
+    const next=()=>{if(k>=cs.length)return res(null);const im=new Image();im.crossOrigin='anonymous';im.decoding='async';im.onload=()=>res(im);im.onerror=()=>{k++;next()};im.src=cs[k]};next()});
+  cache.set(i,p);return p;
+}
+
+/* ---------- motion ---------- */
+let P=0,P0=0,P1=0,yaw=0,yawT=0,seed=0;
+const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+// the cursor nudges the ring: it turns a little, tilts, and drifts toward the pointer (the selection box follows)
+let mx=0,my=0,mxT=0,myT=0;
+hero.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=hero.getBoundingClientRect();
+  mxT=(e.clientX-r.left)/r.width-.5;myT=(e.clientY-r.top)/r.height-.5;yawT=mxT*.14});
+hero.addEventListener('pointerleave',()=>{yawT=mxT=myT=0});
+function render(now){
+  if(!gl)return;
+  gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.uniform2f(U.uRes,W,H);gl.uniform1f(U.uDpr,DPR);gl.uniform2f(U.uC,G.cx+mx*48,G.cy+my*28);
+  gl.uniform1f(U.uF,G.f);gl.uniform1f(U.uR,G.R);gl.uniform1f(U.uSlot,G.slot);gl.uniform1f(U.uP,P);
+  gl.uniform1f(U.uPw,G.fw);gl.uniform1f(U.uPh,G.fh);gl.uniform1f(U.uRad,G.rad);gl.uniform1f(U.uBand,G.band);
+  gl.uniform1f(U.uTime,now/1000);gl.uniform1f(U.uEnv,trans?trans.env:0);gl.uniform1f(U.uN,N);gl.uniform1f(U.uPitch,G.pitch-my*.12);
+  gl.uniform1f(U.uYaw,yaw);gl.uniform1f(U.uSeed,seed);gl.uniform2f(U.uGrid,COLS,ROWS);gl.uniform1i(U.uTex,0);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+}
+function frame(now){
+  const dt=Math.min(64,now-last);last=now;
+  if(inView&&cur<0&&!document.hidden){
+    if(trans){
+      const t=Math.min(1,(now-trans.start)/TR);
+      P=P0+(P1-P0)*easeIO(t);trans.env=Math.sin(Math.PI*t);
+      if(t>=.5&&!trans.swapped){trans.swapped=true;setText(idx)}
+      if(t>=1){trans=null;P=P1}
+    }else if(!paused){elapsed+=dt;if(elapsed>=DUR)slideTo(idx+1)}
+    yaw+=(yawT-yaw)*.06;mx+=(mxT-mx)*.06;my+=(myT-my)*.06;
+    sel.style.transform=hit.style.transform=`translate(calc(-50% + ${(mx*48).toFixed(1)}px),calc(-50% + ${(my*28).toFixed(1)}px))`;
+    render(now);
+  }
+  requestAnimationFrame(frame);
+}
+// text scramble
+const GL='█▓▒░<>/\\[]_#+*=';
+function scramble(el,txt,html){
+  if(RM){el.innerHTML=html||esc(txt);return}
+  const n=txt.length;let f=0;const tot=18;clearInterval(el._t);
+  el._t=setInterval(()=>{f++;let s='';for(let k=0;k<n;k++){const ch=txt[k];s+=(ch===' '||k<n*f/tot)?ch:GL[Math.floor(Math.random()*GL.length)]}
+    el.textContent=s;if(f>=tot){clearInterval(el._t);el.innerHTML=html||esc(txt)}},34);
+}
+function setText(i){
+  const c=CASES[i],url='#/case/'+c.id;
+  scramble($('#h-g'),c.t);
+  $('#h-title').href=url;$('#h-open').href=url;$('#h-hit').href=url;$('#h-hit').setAttribute('aria-label','Смотреть кейс: '+fullTitle(c));
+  $('#h-title').setAttribute('aria-label','Открыть кейс: '+fullTitle(c));
+  $('#h-tags').innerHTML=c.tags.split(' · ').map(t=>`<span class="pill">${esc(t)}</span>`).join('');
+  const N=CASES.length,pi=(i-1+N)%N,ni=(i+1)%N;
+  $('#h-prev-ix').textContent=pad(pi+1);$('#h-next-ix').textContent=pad(ni+1);
+  scramble($('#h-prev-t'),CASES[pi].t);scramble($('#h-next-t'),CASES[ni].t);
+  $('#h-ix').innerHTML=`<i>[ </i>${pad(i+1)} <i>/ ${pad(N)} ]</i>`;
+  cache.get(i)&&cache.get(i).then(im=>{if(idx===i)setWH(im)});
+  $('#h-sp').innerHTML=`<b>${esc(c.tags.split(' · ')[0])}®</b>${c.b&&c.d?'Behance / Dprofile':c.b?'Behance':'Dprofile'}`;
+}
+async function slideTo(n){
+  n=(n+CASES.length)%CASES.length;if(n===idx&&curIm)return;
+  elapsed=0;const prev=idx;idx=n;
+  thumbs.querySelectorAll('button').forEach((b,k)=>{b.setAttribute('aria-current',k===n);b.setAttribute('aria-selected',k===n);b.classList.toggle('done',k<n)});
+  const tb=thumbs.children[n];if(tb){const i=tb.querySelector('i');i.style.animation='none';void i.offsetWidth;i.style.animation='';
+    thumbs.scrollTo({left:tb.offsetLeft-thumbs.clientWidth/2+tb.clientWidth/2,behavior:RM?'auto':'smooth'})}
+  // turn the drum the short way round
+  let dlt=prev<0?0:((n-prev)%N+N)%N;if(dlt>N/2)dlt-=N;
+  if(prev<0){P=P0=P1=n}else{P0=P;P1=(trans?P1:Math.round(P))+dlt}
+  seed=Math.random()*100;
+  loadImg(n).then(im=>{if(idx!==n)return;curIm=im;if(!gl)sel.style.backgroundImage=`url('${CASES[n].c}')`;$('#h-wh')._im=im;if(trans&&trans.swapped||prev<0||RM)setWH(im)});
+  if(RM||prev<0){setText(n);if(RM){P=P1;return}}
+  if(prev<0)return;
+  trans={start:performance.now(),swapped:false,env:0};
+  hero.classList.add('tr-on');clearTimeout(hero._t);hero._t=setTimeout(()=>hero.classList.remove('tr-on'),TR*.7);
+}
+function setWH(im){const iw=im?im.naturalWidth:0,ih=im?im.naturalHeight:0;scramble($('#h-wh'),`W: ${String(iw).padStart(4,'0')}  H: ${String(ih).padStart(4,'0')}`)}
+// thumbnails
+const thumbs=$('#thumbs');
+thumbs.innerHTML=CASES.map((c,i)=>`<button role="tab" aria-label="${esc(fullTitle(c))}" data-i="${i}" data-tip="${pad(i+1)} — ${esc(c.t)}"><i></i></button>`).join('')+'<span class="tip" id="tl-tip"></span>';
+// timeline tooltip
+(()=>{const tip=$('#tl-tip');
+  thumbs.addEventListener('pointerover',e=>{const b=e.target.closest('button');if(!b)return;tip.textContent=b.dataset.tip;
+    const x=b.offsetLeft+b.offsetWidth/2,w=tip.offsetWidth/2;tip.style.left=Math.max(w,Math.min(thumbs.clientWidth-w,x))+'px';tip.classList.add('on')});
+  thumbs.addEventListener('pointerleave',()=>tip.classList.remove('on'));})();
+thumbs.style.setProperty('--dur',DUR+'ms');
+thumbs.addEventListener('click',e=>{const b=e.target.closest('button');if(b)slideTo(+b.dataset.i)});
+let swiped=false;
+$('#h-prev').onclick=()=>{if(!swiped)slideTo(idx-1)};$('#h-next').onclick=()=>{if(!swiped)slideTo(idx+1)};
+// the big square follows the cursor inside its side zone
+$('#h-hit').addEventListener('click',e=>{if(swiped)e.preventDefault()});
+hero.querySelectorAll('.h-nav,.h-hit').forEach(z=>{const sq=z.querySelector('.sq');
+  z.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=z.getBoundingClientRect();sq.style.transform=`translate(${(e.clientX-r.left).toFixed(0)}px,${(e.clientY-r.top).toFixed(0)}px)`});
+  z.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;const r=z.getBoundingClientRect();sq.style.transition='none';sq.style.transform=`translate(${(e.clientX-r.left).toFixed(0)}px,${(e.clientY-r.top).toFixed(0)}px)`;void sq.offsetWidth;sq.style.transition='';document.body.classList.add('xh-nav')});
+  z.addEventListener('pointerleave',()=>document.body.classList.remove('xh-nav'));
+});
+function setPaused(p){paused=p;hero.classList.toggle('paused',p)}
+// swipe; a plain click on the drum itself opens the case
+let sx0=null;hero.addEventListener('pointerdown',e=>{sx0=e.clientX;swiped=false});
+hero.addEventListener('pointerup',e=>{if(sx0==null)return;const d=e.clientX-sx0;sx0=null;
+  if(Math.abs(d)>60){swiped=true;slideTo(idx+(d<0?1:-1));setTimeout(()=>swiped=false,50);return}
+});
+if(!gl)hero.classList.add('no-gl');else{try{initGL()}catch(err){console.warn(err);gl=null;hero.classList.add('no-gl')}}
+addEventListener('keydown',e=>{if(cur>=0||!inView||/input|textarea/i.test(e.target.tagName))return;if(e.key==='ArrowRight')slideTo(idx+1);if(e.key==='ArrowLeft')slideTo(idx-1)});
+new IntersectionObserver(es=>{inView=es[0].isIntersecting}).observe(hero);
+addEventListener('resize',size);size();
+if(RM)setPaused(true);
+slideTo(0);requestAnimationFrame(frame);
+
+
+
+/* ===================== SCROLL ENGINE =====================
+   Every animation below the hero is a pure function of scroll progress.
+   Progress is eased toward its target each frame, so motion stays smooth
+   and plays backwards when the page scrolls up. */
+const SCROLL=(()=>{
+  const RMs=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items=[];
+  const clamp=v=>v<0?0:v>1?1:v;
+  // mode 'enter': 0 when the element's top meets the viewport bottom, 1 when it reaches `end` of the viewport height
+  // mode 'pass' : 0 when the top meets the bottom, 1 when the bottom leaves the top
+  function add(el,fn,{mode='enter',end=.25,ease=.1}={}){const it={el,fn,mode,end,ease,cur:-1,tgt:0};items.push(it);return it}
+  function target(it){const r=it.el.getBoundingClientRect(),vh=innerHeight;
+    return it.mode==='pass'?clamp((vh-r.top)/(vh+r.height)):clamp((vh-r.top)/(vh*(1-it.end)))}
+  function tick(){
+    for(const it of items){
+      if(it.el.offsetParent===null&&it.el!==document.body){continue}
+      it.tgt=target(it);
+      if(it.cur<0||RMs){it.cur=RMs?1:it.tgt;it.fn(it.cur);continue}
+      const d=it.tgt-it.cur;if(Math.abs(d)<.0005)continue;
+      it.cur+=d*it.ease;it.fn(it.cur);
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  return {add,clamp};
+})();
+const ease3=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+
+
+
+/* hero lead — words are wrapped once; every 1.6–3.6 s one random word breaks into pixels for half a second */
+(()=>{
+  const el=$('#h-lead');if(!el)return;
+  el.innerHTML=el.innerHTML.split(/(\s+)/).map(t=>/^\s+$/.test(t)||!t?t:`<span class="w">${t}</span>`).join('');
+  const ws=[...el.querySelectorAll('.w')];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  (function tick(){const w=ws[Math.floor(Math.random()*ws.length)];w.classList.remove('px');void w.offsetWidth;w.classList.add('px');
+    setTimeout(()=>w.classList.remove('px'),520);setTimeout(tick,1600+Math.random()*2000)})();
+  // black blocks: 1–2 neighbouring words light up for a moment, at their own rhythm
+  (function mark(){const i=Math.floor(Math.random()*ws.length),n=Math.random()<.4?2:1,sel=ws.slice(i,i+n);
+    sel.forEach(w=>w.classList.add('hl'));setTimeout(()=>sel.forEach(w=>w.classList.remove('hl')),900+Math.random()*700);
+    setTimeout(mark,1300+Math.random()*1500)})();
+})();
+/* hero scroll-down button: own eased scroll (900 ms) to the screen after the hero */
+$('#h-down').addEventListener('click',e=>{e.preventDefault();
+  const y0=scrollY,y1=$('#dirs').getBoundingClientRect().top+scrollY-(innerWidth<=820?44:41);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){scrollTo(0,y1);return}
+  const t0=performance.now(),D=900;
+  (function f(t){const k=Math.min(1,(t-t0)/D);scrollTo(0,y0+(y1-y0)*ease3(k));if(k<1)requestAnimationFrame(f)})(t0)});
+
+/* prev / next case titles: on hover the title is redrawn in a canvas and resolves from big blocks to sharp text.
+   (an SVG pixel filter wipes out dark text on the beige hover state, so this one is done by hand) */
+(()=>{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  document.querySelectorAll('.case-foot button').forEach(btn=>{
+    const b=btn.querySelector('b');let raf=0,cv=null;
+    const stop=()=>{cancelAnimationFrame(raf);if(cv){cv.remove();cv=null}b.style.color=''};
+    btn.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;stop();
+      requestAnimationFrame(()=>{ // wait one frame so the hover colours are applied
+        const br=btn.getBoundingClientRect(),r=b.getBoundingClientRect(),cs=getComputedStyle(b),dpr=Math.min(2,devicePixelRatio||1);
+        const W=Math.ceil(r.width)+8,H=Math.ceil(r.height)+8;
+        cv=document.createElement('canvas');cv.width=W*dpr;cv.height=H*dpr;
+        Object.assign(cv.style,{left:(r.left-br.left-4)+'px',top:(r.top-br.top-4)+'px',width:W+'px',height:H+'px'});
+        btn.appendChild(cv);const cx=cv.getContext('2d');
+        // sharp copy of the title
+        const src=document.createElement('canvas');src.width=cv.width;src.height=cv.height;const sx=src.getContext('2d');
+        sx.scale(dpr,dpr);sx.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;sx.letterSpacing=cs.letterSpacing;sx.fillStyle='#0c0c0b';sx.textBaseline='alphabetic';
+        const txt=cs.textTransform==='uppercase'?b.textContent.toUpperCase():b.textContent,m=sx.measureText(txt);
+        sx.fillText(txt,4,4+(r.height+m.actualBoundingBoxAscent-m.actualBoundingBoxDescent)/2);
+        b.style.color='transparent';
+        const tiny=document.createElement('canvas'),tx=tiny.getContext('2d'),t0=performance.now(),D=650,SIZES=[14,10,14,8,5,3];
+        (function f(now){const k=Math.min(1,(now-t0)/D);cx.clearRect(0,0,cv.width,cv.height);
+          if(k>=1){stop();return}
+          const bs=Math.round(SIZES[Math.min(SIZES.length-1,Math.floor(k*SIZES.length))]*dpr);
+          tiny.width=Math.max(1,Math.ceil(cv.width/bs));tiny.height=Math.max(1,Math.ceil(cv.height/bs));
+          tx.clearRect(0,0,tiny.width,tiny.height);tx.drawImage(src,0,0,tiny.width,tiny.height);
+          // harden the averaged blocks: anything half-covered becomes solid ink, the rest drops out
+          const d=tx.getImageData(0,0,tiny.width,tiny.height),p=d.data;
+          for(let i=3;i<p.length;i+=4){const on=p[i]>(bs>12*dpr?22:60);p[i-3]=p[i-2]=p[i-1]=12;p[i]=on?255:0}
+          tx.putImageData(d,0,0);
+          cx.imageSmoothingEnabled=false;cx.drawImage(tiny,0,0,tiny.width*bs,tiny.height*bs);
+          raf=requestAnimationFrame(f)})(t0);
+      });
+    });
+    btn.addEventListener('pointerleave',stop);
+    btn.addEventListener('click',stop);
+  });
+})();
+
+/* big headings ("Все кейсы", "Let's talk"): while on screen, now and then letters break into big pixels —
+   one letter, a few, or a wave across the word */
+function pxGlitch(l){
+  if(!l||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  // letters are grouped per word so a line never breaks inside a word
+  l.innerHTML=l.textContent.split(/(\s+)/).map(w=>/^\s+$/.test(w)?w:`<span class="gw">${[...w].map(c=>`<span class="gch">${c}</span>`).join('')}</span>`).join('');
+  const cs=[...l.querySelectorAll('.gch')].filter(c=>c.textContent.trim());let vis=false;
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting}).observe(l);
+  const hit=(c,d)=>{c.classList.remove('px');void c.offsetWidth;c.style.setProperty('--dl',d+'s');c.classList.add('px');setTimeout(()=>c.classList.remove('px'),(d+.65)*1000)};
+  const any=()=>cs[Math.floor(Math.random()*cs.length)];
+  (function tick(){
+    if(vis){const r=Math.random();
+      if(r<.25)cs.forEach((c,i)=>hit(c,i*.05));
+      else if(r<.6){const n=2+Math.floor(Math.random()*2);for(let i=0;i<n;i++)hit(any(),i*.08)}
+      else hit(any(),0)}
+    setTimeout(tick,1100+Math.random()*1600)})();
+}
+pxGlitch($('#all-toggle .lbl'));
+
+/* 02 directions — hovering a discipline shows a small preview at the cursor that flips through its cases (pixel cut between them); click opens the case on screen */
+(()=>{
+  const box=$('#dr-prev');if(!box)return;
+  document.body.appendChild(box); // out of the section's stacking context, so the next screen can't cover it
+  const imgs=[...box.querySelectorAll('img')],nEl=$('#dp-n'),tEl=$('#dp-t');
+  const byId=Object.fromEntries(CASES.map(c=>[c.id,c]));
+  let list=[],k=0,front=0,timer=0,cur=null,x=0,y=0,raf=0;
+  const show=()=>{const c=list[k];if(!c)return;front^=1;const im=imgs[front],old=imgs[front^1];
+    im.src=c.c;im.classList.remove('px');void im.offsetWidth;im.classList.add('cur','px');old.classList.remove('cur','px');
+    nEl.textContent=`${pad(k+1,2)} / ${pad(list.length,2)}`;tEl.textContent=c.t};
+  const place=()=>{raf=0;const w=box.offsetWidth,h=box.offsetHeight;
+    const px=x+24+w>innerWidth?x-24-w:x+24,py=Math.min(y+24,innerHeight-h-8);box.style.transform=`translate(${px}px,${py}px)`};
+  document.querySelectorAll('.dr-list li').forEach(li=>{
+    li.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;cur=li;
+      list=li.dataset.c.split(' ').map(id=>byId[id]).filter(Boolean);
+      list.forEach(c=>{const p=new Image();p.src=c.c});
+      k=0;show();x=e.clientX;y=e.clientY;place();box.classList.add('on');
+      clearInterval(timer);timer=setInterval(()=>{k=(k+1)%list.length;show()},420)});
+    li.addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;if(!raf)raf=requestAnimationFrame(place)});
+    li.addEventListener('pointerleave',()=>{if(cur===li){clearInterval(timer);box.classList.remove('on');cur=null}});
+    li.addEventListener('click',()=>{const c=list[k];if(cur===li&&c)location.hash='#/case/'+c.id});
+  });
+})();
+
+/* 04 cases — cards rise in with scroll */
+(()=>{
+  const cards=[...document.querySelectorAll('#grid .card')];
+  cards.forEach(c=>SCROLL.add(c,p=>c.style.setProperty('--co',ease3(p).toFixed(3)),{end:.8,ease:.12}));
+  SCROLL.add($('#all-toggle'),p=>{$('#all-toggle .lbl').style.transform=`translateX(${((1-ease3(p))*-8).toFixed(2)}%)`},{end:.4});
+})();
+
+/* 05 awards — counters count up, row titles slide up out of their line, rules draw in */
+(()=>{
+  const sec=$('#awards'),nums=[...sec.querySelectorAll('.cnt-up')],rows=[...sec.querySelectorAll('.aw-row')];
+  SCROLL.add(sec,p=>{const q=ease3(SCROLL.clamp(p*1.4));nums.forEach(n=>n.textContent=pad(Math.round(+n.dataset.to*q),2))},{end:.35});
+  rows.forEach((r,i)=>SCROLL.add(r,p=>{r.style.setProperty('--ro',ease3(p).toFixed(3));r.style.opacity=(.25+.75*p).toFixed(3)},{end:.8,ease:.1}));
+})();
+
+/* 06 contact — the big line slides in from the left as it scrolls into view */
+(()=>{
+  // the contact screen sits at the very end of the page, so scroll progress never reaches 1 there:
+  // play it as a transition once the block is on screen instead
+  const mg=$('.mega');
+  pxGlitch($('.mg-l'));
+  // hover: the solid square breaks into random blocks (holes in the page colour + a few accent cells) and builds back up
+  (()=>{const a=$('.mg-a'),cv=document.createElement('canvas'),cx=cv.getContext('2d');a.appendChild(cv);let raf=0;
+    const RMh=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    mg.addEventListener('pointerenter',()=>{if(RMh)return;cancelAnimationFrame(raf);
+      const s=a.clientWidth,dpr=devicePixelRatio||1;cv.width=cv.height=Math.round(s*dpr);cx.setTransform(dpr,0,0,dpr,0,0);
+      const cs=getComputedStyle(mg),bg=getComputedStyle(document.querySelector('.contact')).backgroundColor,acc=cs.getPropertyValue('--acc').trim()||'#c9b79c';
+      const t0=performance.now(),D=650;
+      (function f(now){const t=Math.min(1,(now-t0)/D),k=Math.sin(t*Math.PI);cx.clearRect(0,0,s,s);
+        if(t<1){const steps=[4,6,8,12,16],bs=steps[Math.min(4,Math.floor(k*5))],n=Math.ceil(s/bs);
+          for(let y=0;y<n;y++)for(let x=0;x<n;x++){const r=Math.random();
+            if(r<k*.55){cx.fillStyle=bg;cx.fillRect(x*bs,y*bs,bs,bs)}else if(r>1-k*.04){cx.fillStyle=acc;cx.fillRect(x*bs,y*bs,bs,bs)}}
+          raf=requestAnimationFrame(f)}})(t0);
+    });
+  })();
+  new IntersectionObserver(es=>es.forEach(e=>mg.classList.toggle('in',e.isIntersecting)),{threshold:.35}).observe(mg);
+})();
+
+/* mobile menu */
+(()=>{const bar=$('.bar'),btn=$('#m-btn'),lbl=btn.querySelector('.m-lbl');
+  const set=on=>{bar.classList.toggle('open',on);document.body.classList.toggle('m-lock',on);btn.setAttribute('aria-expanded',on);lbl.textContent=on?'Закрыть':'Меню'};
+  btn.addEventListener('click',()=>set(!bar.classList.contains('open')));
+  $('#m-nav').addEventListener('click',e=>{if(e.target.closest('a'))set(false)});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&bar.classList.contains('open'))set(false)});
+  matchMedia('(min-width:821px)').addEventListener('change',e=>{if(e.matches)set(false)});
+})();
+
+/* crosshair cursor */
+(()=>{const h=$('.xh-h'),v=$('.xh-v'),d=$('.xh-dot'),l=$('.xh-lbl');let x=-99,y=-99,raf=0;
+  const upd=()=>{raf=0;h.style.transform=`translateY(${y}px)`;v.style.transform=`translateX(${x}px)`;d.style.transform=l.style.transform=`translate(${x}px,${y}px)`;l.textContent=`[${pad(Math.round(x),4)}, ${pad(Math.round(y),4)}]`};
+  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;x=e.clientX;y=e.clientY;document.body.classList.add('xh-on');
+    document.body.classList.toggle('xh-link',!!(e.target.closest&&e.target.closest('a,button')));if(!raf)raf=requestAnimationFrame(upd)},{passive:true});
+  document.addEventListener('mouseleave',()=>document.body.classList.remove('xh-on'));
+})();
+
+/* clock */
+function tick(){const d=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Moscow'}));const s=[d.getHours(),d.getMinutes(),d.getSeconds()].map(x=>pad(x,2)).join(':');$('#clock').textContent='SPB '+s;$('#foot-xy').textContent='LOCAL TIME '+s}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
