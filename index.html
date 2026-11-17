@@ -551,7 +551,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   .hero .h-tagbar{top:auto;bottom:170px;left:var(--pad);right:auto;justify-content:flex-start;max-width:calc(100% - 2 * var(--pad));gap:4px}
   .h-lead{top:54px;width:calc(100% - 2 * var(--pad));font-size:14px;line-height:1.12}
   .hero .h-tagbar .pill{padding:5px 8px;font-size:9px;border-width:1px}
-  .hero{--fy:calc(44px + 84px + (100svh - 44px - 320px) / 2)}
+  /* slider sits below the lead text: its top edge never rises above 210px (counter + gap under the text) */
+  .hero{--fy:max(calc(44px + 104px + (100svh - 44px - 320px) / 2),calc(210px + var(--fh) / 2))}
   .h-lead{font-size:13.5px;line-height:1.15}
   /* "Все кейсы" row: one line, counter and plus at the right */
   .all-toggle{grid-template-columns:1fr auto!important;gap:14px}
