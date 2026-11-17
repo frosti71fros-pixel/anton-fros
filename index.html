@@ -317,7 +317,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 .all-toggle .hint{grid-column:4;margin-right:9vw;font:600 clamp(11px,.9vw,14px)/1.1 var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .all-toggle .ic{grid-column:5}
 .all-toggle{grid-template-columns:1fr auto}
-.all-toggle .cnt{grid-column:2;justify-self:end;font:600 clamp(48px,9vw,160px)/.9 var(--sans);font-stretch:100%;letter-spacing:-.04em;color:var(--fg);white-space:nowrap}
+.all-toggle .cnt{grid-column:2;justify-self:end;font:600 clamp(38px,7vw,124px)/.9 var(--sans);font-stretch:100%;letter-spacing:-.04em;color:var(--fg);white-space:nowrap}
 /* arrow down instead of the plus: a stem and a chevron, drawn to sit in the middle */
 .more .ic.dn::before{display:none}
 .more .ic.dn::after{width:24%;height:24%;margin:0;left:50%;top:50%;background:none;border:0 solid currentColor;border-right-width:2px;border-bottom-width:2px;transform:translate(-50%,-70%) rotate(45deg)}
@@ -555,7 +555,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   .h-lead{font-size:13.5px;line-height:1.15}
   /* "Все кейсы" row: one line, counter and plus at the right */
   .all-toggle{grid-template-columns:1fr auto!important;gap:14px}
-  .all-toggle .lbl,.all-toggle .cnt{font-size:clamp(30px,9vw,96px);white-space:nowrap}
+  .all-toggle .lbl{font-size:clamp(30px,9vw,96px);white-space:nowrap}
+  .all-toggle .cnt{font-size:clamp(24px,7vw,74px)}
   /* awards: number, name, medals under the name; the "—" region column is dropped */
   .awards .aw-row{grid-template-columns:28px 1fr;gap:8px 10px}
   .awards .aw-i{grid-column:1}
@@ -1394,7 +1395,7 @@ function pxGlitch(l){
       else hit(any(),0)}
     setTimeout(tick,1100+Math.random()*1600)})();
 }
-pxGlitch($('#all-toggle .lbl'));
+pxGlitch($('#all-toggle .lbl'));pxGlitch($('#all-toggle .cnt'));
 
 /* 02 directions — hovering a discipline shows a small preview at the cursor that flips through its cases (pixel cut between them); click opens the case on screen */
 (()=>{

@@ -9,7 +9,7 @@
 
 ## Как выложить в интернет
 
-- **Сайт уже выложен на GitHub Pages:** https://frosti71fros-pixel.github.io/portfolio/ (репозиторий `frosti71fros-pixel/portfolio`, ветка `main`, корень). Обновить: открыть репозиторий → Add file → Upload files → перетащить новый `index.html` (и папку `cases/`, если менялись картинки кейсов из презентации) → Commit changes; через ~1 минуту сайт обновится. Фото `20250819-MMM06257 1.png` и `portfolio 2026_антон fros.txt` в репозиторий не выкладывались.
+- **Сайт уже выложен на GitHub Pages:** https://frosti71fros-pixel.github.io/anton-fros/ (репозиторий `frosti71fros-pixel/anton-fros`, до 17.11.2026 назывался `portfolio`, ветка `main`, корень). Обновить: открыть репозиторий → Add file → Upload files → перетащить новый `index.html` (и папку `cases/`, если менялись картинки кейсов из презентации) → Commit changes; через ~1 минуту сайт обновится. Фото `20250819-MMM06257 1.png` и `portfolio 2026_антон fros.txt` в репозиторий не выкладывались.
 - Быстрее всего Netlify Drop: зайти на app.netlify.com/drop и перетащить эту папку. Получится публичная ссылка. Чтобы сайт жил постоянно и можно было поменять адрес, нужна бесплатная регистрация.
 - Подойдут также GitHub Pages или Vercel.
 - Приватные ссылки Claude Artifacts не подходят: там заблокированы внешние картинки и видео, сайт будет пустым.
