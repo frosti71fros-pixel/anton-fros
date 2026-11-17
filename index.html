@@ -316,7 +316,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 .all-toggle .cnt{grid-column:3}
 .all-toggle .hint{grid-column:4;margin-right:9vw;font:600 clamp(11px,.9vw,14px)/1.1 var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .all-toggle .ic{grid-column:5}
-.all-toggle{grid-template-columns:auto 1fr auto auto auto}
+.all-toggle{grid-template-columns:1fr auto}
+.all-toggle .cnt{grid-column:2;justify-self:end;font:600 clamp(48px,9vw,160px)/.9 var(--sans);font-stretch:100%;letter-spacing:-.04em;color:var(--fg);white-space:nowrap}
 /* arrow down instead of the plus: a stem and a chevron, drawn to sit in the middle */
 .more .ic.dn::before{display:none}
 .more .ic.dn::after{width:24%;height:24%;margin:0;left:50%;top:50%;background:none;border:0 solid currentColor;border-right-width:2px;border-bottom-width:2px;transform:translate(-50%,-70%) rotate(45deg)}
@@ -553,11 +554,8 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
   .hero{--fy:calc(44px + 84px + (100svh - 44px - 320px) / 2)}
   .h-lead{font-size:13.5px;line-height:1.15}
   /* "Все кейсы" row: one line, counter and plus at the right */
-  .all-toggle{grid-template-columns:1fr auto auto!important;gap:14px}
-  .all-toggle .lbl{font-size:clamp(40px,12.5vw,96px);white-space:nowrap}
-  .all-toggle .cnt{grid-column:auto;margin:0;white-space:nowrap;font-size:14px}
-  .all-toggle .hint{display:none}
-  .all-toggle .ic{grid-column:auto;width:52px}
+  .all-toggle{grid-template-columns:1fr auto!important;gap:14px}
+  .all-toggle .lbl,.all-toggle .cnt{font-size:clamp(30px,9vw,96px);white-space:nowrap}
   /* awards: number, name, medals under the name; the "—" region column is dropped */
   .awards .aw-row{grid-template-columns:28px 1fr;gap:8px 10px}
   .awards .aw-i{grid-column:1}
@@ -574,9 +572,6 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 @media (max-width:520px){
   .h-row{padding-bottom:58px}
   .about .ab-body{padding:48px 0 40px}
-  .all-toggle .hint{display:none}
-  .all-toggle{grid-template-columns:auto 1fr auto}
-  .all-toggle .cnt,.all-toggle .ic{grid-column:auto}
   .aw-c{grid-column:span 4}
 }
 </style>
@@ -652,9 +647,9 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;paddin
 
 <section class="scr cases" id="work" aria-labelledby="work-h">
   <header class="sh"><h2 class="tag" id="work-h">[ 03 ] Работы</h2><span id="work-n">25 кейсов</span><span>Behance + Dprofile</span><span>Брендинг / шрифты / каллиграфия</span></header>
-  <button class="all-toggle" id="all-toggle" aria-expanded="false" aria-controls="all-cases">
-    <span class="lbl">Все кейсы</span><span class="cnt">[ 025 ]</span><span class="hint" id="all-hint">Смотреть все кейсы</span><span class="ic" aria-hidden="true"></span>
-  </button>
+  <div class="all-toggle" id="all-toggle">
+    <span class="lbl">Все кейсы</span><span class="cnt">[ 025 ]</span>
+  </div>
   <div id="all-cases">
     <div class="sec-h">
       <span class="sec-n">Показано [ <span id="count">025</span> ]</span>
@@ -900,10 +895,6 @@ grid.innerHTML=CASES.map((c,i)=>{
 const allBtn=$('#all-toggle'),allBox=$('#all-cases');
 allBtn.querySelector('.cnt').textContent=`[ ${pad(CASES.length)} ]`;
 $('#work-n').textContent=CASES.length+' кейс'+(CASES.length%10===1&&CASES.length%100!==11?'':CASES.length%10>=2&&CASES.length%10<=4&&(CASES.length%100<10||CASES.length%100>=20)?'а':'ов');
-// the grid always shows the first 6; the toggle expands it to every case of the current filter and back
-const setAll=open=>{allBtn.setAttribute('aria-expanded',open);$('#all-hint').textContent=open?'Свернуть':'Смотреть все кейсы'};
-allBtn.addEventListener('click',()=>{const open=allBtn.getAttribute('aria-expanded')!=='true';shown=open?1e3:STEP;setAll(open);applyGrid();
-  if(!open)scrollTo({top:allBtn.getBoundingClientRect().top+scrollY-41,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
 // filters
 const fEl=$('#filters');
 fEl.innerHTML=CATS.map(([k,l])=>{const n=k==='all'?CASES.length:CASES.filter(c=>c.k.includes(k)).length;return `<button data-k="${k}" aria-pressed="${k==='all'}">${l}<sup>${n}</sup></button>`}).join('');
@@ -919,7 +910,7 @@ function applyGrid(){
 fEl.addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   fEl.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  fk=b.dataset.k;shown=STEP;setAll(false);applyGrid();
+  fk=b.dataset.k;shown=STEP;applyGrid();
 });
 moreBtn.addEventListener('click',()=>{const first=grid.querySelectorAll('.card:not(.hide):not(.cut)').length;shown+=STEP;applyGrid();
   const nx=grid.querySelectorAll('.card:not(.hide):not(.cut)')[first];if(nx)nx.focus({preventScroll:true})});
