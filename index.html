@@ -784,6 +784,7 @@ const CASES=[
  {id:"diksi-dino",t:"Дикси Дино",k:["char"],b:"214428821/diksi-dino",c:"https://mir-s3-cdn-cf.behance.net/projects/404/8ddd8b214428821.Y3JvcCw4MTUsNjM3LDAsMTI.jpg",tags:"Character · Illustration"},
  {id:"brat",t:"Мерч «Брат»",sub:"Дикси",k:["merch"],img:["cases/cover-brat.jpg","cases/slide-31.jpg"],c:"cases/cover-brat.jpg",tags:"Merch · Art Direction"},
  {id:"sobolev",t:"Мерч Ильи Соболева",k:["merch"],fy:1,img:["cases/slide-32.jpg","cases/slide-33.jpg"],c:"cases/cover-sobolev.jpg",x:[["sobolevshop.ru","https://sobolevshop.ru"]],tags:"Merch · Graphic Design"},
+ {id:"luns-merch",t:"Мерч Luns Muns",sub:"Футболка с авторским принтом",k:["merch"],img:[["cases/luns-merch-1.jpg","cases/luns-merch-2.jpg"],["cases/luns-merch-3.jpg","cases/luns-merch-4.jpg"],["cases/luns-merch-5.jpg","cases/luns-merch-6.jpg"],["cases/luns-merch-7.jpg","cases/luns-merch-8.jpg"]],c:"cases/cover-luns-merch.jpg",tags:"Merch · Illustration"},
  {id:"belyi-kot",t:"Белый Кот",sub:"Дизайн упаковки",k:["brand"],img:["cases/slide-47.jpg","cases/slide-48.jpg","cases/slide-49.jpg"],c:"cases/cover-belyi-kot.jpg",tags:"Packaging"},
  {id:"terror",t:"Terror",sub:"Спортивный бренд",k:["web"],img:["cases/cover-terror.jpg","cases/slide-67.jpg","cases/slide-68.jpg","cases/slide-69.jpg"],c:"cases/cover-terror.jpg",x:[["terrorsnow.com","http://terrorsnow.com"]],tags:"Web · E-commerce"},
  {id:"homag",t:"HOMAG Russland",sub:"Сайт",k:["web"],img:["cases/cover-homag.jpg","cases/slide-71.jpg","cases/slide-72.jpg"],c:"cases/cover-homag.jpg",x:[["homagrussland.ru","https://homagrussland.ru/"],["Полный кейс","https://www.shogo.ru/portfolio/item-homag/"]],tags:"Web · UI/UX"},
@@ -808,6 +809,7 @@ const CASES=[
 // case intro text, copied from the Behance / Dprofile project description
 const DESC={
 "zenit-lion":"Синегривый Лев жил только в день матча: обнимал детей на фан-променаде, фотографировался, махал трибунам — и исчезал до следующей игры.\n\nДобрый, милый, всеми любимый — и при этом невидимый за пределами стадиона. Ростовая кукла работала аниматором, но не работала брендом: без стратегии, без характера, без единого визуального языка, без коммерческого потенциала.\n\nЗадача: превратить маскота в самостоятельный медиаактив клуба.\n\nСостав работ: Стратегия · Бренд-платформа · Характер · 2D/3D-образ · Айдентика · Брендбук · Мерч",
+"luns-merch":"Мерч для Luns Muns: футболка оверсайз с авторским принтом на спине и небольшим знаком на груди. Фотосессия коллекции",
 "perfokarta":"Экспериментальный моноширинный шрифт, вдохновлённый формой и структурой перфокарт",
 "pbp":"PBP [PIECE BY PIECE]\nОдежда, которую больше не носят: разобранная и сшитая заново.\nЭто не история про ресайкл. Это авторское переосмысление жизни вещей\n\nПервая глава большого проекта.\nОна состоит из четырёх предметов [PIECE], которые вместе складываются в единый, неповторимый образ\n\nМАНИФЕСТ\nКаждая ношеная вещь хранит жизнь, которая уже прожита.\nМы не стираем эту жизнь.\n\nМы вскрываем её. Перекраиваем.\nСшиваем в новое высказывание\n\nНичего не скрыто. Шрамы становятся конструкцией.\nПамять становится материалом\n\nPBP создаёт реконструкции, которые можно носить\n\nНовая история, собранная из старых",
 "logos-v2":"Подборка логотипов, разработанных в период с 2020 по 2026",
@@ -940,7 +942,7 @@ const caseEl=$('#case');let cur=-1;
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const im=e.target;im.src=im.dataset.src;io.unobserve(im)}}),{root:caseEl,rootMargin:'1200px 0px'});
 function blocksFor(c){
   // own images (slides from the portfolio deck, stored next to index.html)
-  if(c.img)return c.img.map(p=>({i:p}));
+  if(c.img)return c.img.map(p=>Array.isArray(p)?{row:p.map(i=>({i,fr:1}))}:{i:p});
   // Prefer Behance content when a case exists there (same project), else Dprofile
   if(c.b){const id=c.b.split('/')[0];return (BEH[id]||[]).map(m=>typeof m==='object'?{row:m.r.map(([p,w])=>({i:'~'+p,bh:1,fr:w}))}:m.startsWith('~')?{i:m,bh:1}:{v:m})}
   const id=c.d.split('/')[0];
